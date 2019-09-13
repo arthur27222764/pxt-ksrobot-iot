@@ -1,0 +1,15 @@
+{
+    "name": "KSRobot_IOT",
+    "version": "0.1.0",
+    "description": "Extension for KAISE KSRobot IOT WIFI module",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "main.ts",
+        "README.md",
+        "_locales/zh/KSRobot_IR-strings.json" 
+    ],
+    "public": true
+}
