@@ -9,7 +9,7 @@
     "files": [
         "main.ts",
         "README.md",
-        "_locales/zh/KSRobot_IR-strings.json" 
+        
     ],
     "public": true
 }
