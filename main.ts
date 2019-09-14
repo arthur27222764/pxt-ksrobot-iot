@@ -57,7 +57,7 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=Wifi_setup
-    //% block="KSRobot WIFI Set TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd"
+    //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd"
     //% weight=99
     export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string):void{
         
