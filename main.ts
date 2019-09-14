@@ -74,7 +74,7 @@ namespace KSRobot_IOT {
     //% block="ThingSpeak|Write API key = %write_api_key|Field 1 = %field1|Field 2 = %field2|Field 3 = %field3|Field 4 = %field4|Field 5 = %field5|Field 6 = %field6|Field 7 = %field7|Field 8 = %field8"
     export function ThingSpeak_set(write_api_key: string, field1: number, field2: number, field3: number, field4: number, field5: number, field6: number, field7: number, field8: number) {
         if (thingspeak_connected) {
-            toSendStr = "GET /update?api_key="
+            let toSendStr = "GET /update?api_key="
             + write_api_key
             + "&field1=" 
             + field1
@@ -96,10 +96,10 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=IFTTT_set
-    //% block="IFTTT_set|Write API key = %write_api_key|Value 1 = %value1| Value2 = %value2| alue3 = %value3"
+    //% block="IFTTT_set|Write API key = %write_api_key|Value 1 = %value1| Value2 = %value2| Value3 = %value3"
     export function IFTTT_set(write_api_key: string, value1: number, value2: number, value3: number) {
         if (thingspeak_connected) {
-            toSendStr = "GET /update?api_key="
+            let toSendStr = "GET /update?api_key="
             + write_api_key
             + "&field1=" 
             + value1
