@@ -96,8 +96,8 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=IFTTT_set
-    //% block="IFTTT_set|Write API key = %write_api_key|Value 1 = %value1| Value2 = %value2| Value3 = %value3"
-    export function IFTTT_set(write_api_key: string, value1: number, value2: number, value3: number) {
+    //% block="IFTTT_set|Event Name = %event_name| Write API key = %write_api_key| Value 1 = %value1| Value2 = %value2| Value3 = %value3"
+    export function IFTTT_set(event_name: string, write_api_key: string, value1: number, value2: number, value3: number) {
         if (IOT_SERIAL_INIT) {
             let toSendStr = "GET /update?api_key="
             + write_api_key
