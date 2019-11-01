@@ -19,8 +19,8 @@ namespace KSRobot_IOT {
             SerialPin.P8,  //RX
             BaudRate.BaudRate115200
         );
-        serial.setRxBufferSize(256)
-        serial.setTxBufferSize(256)
+        serial.setRxBufferSize(128)
+        serial.setTxBufferSize(128)
         serial.writeLine("AT+Restart=");
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "=");
         LocalIP = "192.168.1.1"
