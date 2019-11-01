@@ -3,112 +3,105 @@
  */
 //% weight=10 color=#00A6F0 icon="\uf1eb" block="KSRobot_IOT"
 namespace KSRobot_IOT {
-    //serial
-    let IOT_SERIAL_INIT = false
+
     let IOT_WIFI_CONNECTED = false
-    let IOT_WIFI_SSID = ""
-    let IOT_WIFI_PASSWORD = ""
-    let IOT_SERIAL_TX = SerialPin.P8
-    let IOT_SERIAL_RX = SerialPin.P15
-    let LOCAL_IP = ""
-    
+    let IOTReturnArray: string[] = []
+    let LocalIP = false
 
-
-
-    function IOT_serial_init(): void {
-        serial.writeString("123")
-        let item = serial.readString()
-        item = serial.readString()
-        item = serial.readString()
-        serial.redirect(
-            IOT_SERIAL_TX,   //TX
-            IOT_SERIAL_RX,  //RX
-            BaudRate.BaudRate9600
-        )
-        serial.setRxBufferSize(200)
-        serial.setTxBufferSize(100)
-        serial.writeString("\r")
-        item = serial.readString()
-        serial.writeString("|1|1|\r")
-        item = serial.readUntil("\r")
-        item = serial.readString()
-        item = serial.readString()
-        item = serial.readString()
-        item = serial.readString()
-        IOT_SERIAL_INIT = true
-    }
-    function IOT_connect_wifi(): void {
-        if (!IOT_SERIAL_INIT) {
-            IOT_serial_init()
-        }
-        if (IOT_SERIAL_INIT) {
-            
-            let item = "test"
-            serial.writeString("|2|1|" + IOT_WIFI_SSID + "," + IOT_WIFI_PASSWORD + "|\r") //Send wifi account and password instructions
-            item = serial.readUntil("\r")
-            while (item.indexOf("|2|3|") < 0) {
-                item = serial.readUntil("\r")
-            }
-            //LOCAL_IP = item.substr(5, item.length - 6)
-            IOT_WIFI_CONNECTED = true
-            
-        }
-
-    }
 
     //% blockId=Wifi_setup
     //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd"
     //% weight=99
-    export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string):void{
-        
-        
-        IOT_SERIAL_TX = txd
-        IOT_SERIAL_RX = rxd
-        IOT_WIFI_SSID = ssid
-        IOT_WIFI_PASSWORD = passwd
-        IOT_serial_init()
-        IOT_connect_wifi()
- 
+    export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string): void {
+        serial.redirect(
+            txd,   //TX
+            rxd,  //RX
+            BaudRate.BaudRate115200
+        )
+        serial.setRxBufferSize(256)
+        serial.setTxBufferSize(256)
+        serial.writeLine("AT+Restart=");
+        serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "=");
+        LocalIP ="192.168.1.1"
+        IOT_WIFI_CONNECTED = true
     }
+
     //% blockId=ThingSpeak_set
-    //% block="ThingSpeak Set|Write API key = %write_api_key|Field 1 = %field1|Field 2 = %field2|Field 3 = %field3|Field 4 = %field4|Field 5 = %field5|Field 6 = %field6|Field 7 = %field7|Field 8 = %field8"
-    export function ThingSpeak_set(write_api_key: string, field1: number, field2: number, field3: number, field4: number, field5: number, field6: number, field7: number, field8: number) {
-        if (IOT_SERIAL_INIT) {
-            let toSendStr = "GET /update?api_key="
-            + write_api_key
-            + "&field1=" 
-            + field1
-            + "&field2=" 
-            + field2 
-            + "&field3=" 
-            + field3 
-            + "&field4=" 
-            + field4 
-            + "&field5=" 
-            + field5 
-            + "&field6=" 
-            + field6 
-            + "&field7=" 
-            + field7 
-            + "&field8=" 
-            + field8
+    //% block="ThingSpeak Set|Write API key = %api_key|Field 1 = %field1|Field 2 = %field2|Field 3 = %field3|Field 4 = %field4|Field 5 = %field5|Field 6 = %field6|Field 7 = %field7|Field 8 = %field8"
+    export function ThingSpeak_set(api_key: string, field1: number, field2: number, field3: number, field4: number, field5: number, field6: number, field7: number, field8: number): void {
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+ThingSpeak?host=api.thingspeak.com/update&api_key="
+                + api_key
+                + "&field1="
+                + field1
+                + "&field2="
+                + field2
+                + "&field3="
+                + field3
+                + "&field4="
+                + field4
+                + "&field5="
+                + field5
+                + "&field6="
+                + field6
+                + "&field7="
+                + field7
+                + "&field8="
+                + field8
+                + "=");
         }
     }
 
     //% blockId=IFTTT_set
-    //% block="IFTTT Set|Event Name = %event_name| Write API key = %write_api_key| Value 1 = %value1| Value2 = %value2| Value3 = %value3"
-    export function IFTTT_set(event_name: string, write_api_key: string, value1: number, value2: number, value3: number) {
-        if (IOT_SERIAL_INIT) {
-            let toSendStr = "GET /update?api_key="
-            + write_api_key
-            + "&field1=" 
-            + value1
-            + "&field2=" 
-            + value2 
-            + "&field3=" 
-            + value3 
-            
+    //% block="IFTTT Set|Event Name = %event_name| Write API key = %api_key| Value 1 = %value1| Value 2 = %value2| Value 3 = %value3"
+    export function IFTTT_set(event_name: string, api_key: string, value1: number, value2: number, value3: number): void {
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+IFTTT?host=maker.ifttt.com/trigger/"
+                + event_name
+                + "/with/key/"
+                + api_key
+                + "&value1="
+                + value1
+                + "&value2="
+                + value2
+                + "&value3="
+                + value3
+                + "=");
         }
     }
+
+    //% blockId=MQTT_set
+    //% block="Connect MQTT server %host| port %port| client id %clientId| username %username| password %pwd"
+    export function MQTT_set(host: string, port: string, clientId: string, username: string, pwd: string): void {
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+MQTT?host=" + host + "&port=" + port + "&clientId=" + clientId + "&username=" + username + "&password=" + pwd +
+                + "=");
+        }
+    }
+
+    //%blockId=MQTTPublish
+    //% block="MQTT publish topic %topic| payload %payload"
+    export function MQTTPublish(topic: string, payload: string): void {
+        serial.writeLine("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload + "=");
+    }
+
+    //%blockId=MQTTSubscribe
+    //% block="MQTT subscribe topic %topic"
+    export function MQTTSubscribe(topic: string): void {
+        serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
+    }
+
+    //%blockId=GetIP
+    //%block="Get IP Address"
+    export function GetIP(): string {
+        return LocalIP;
+    }
+
     
+    //% blockId="getIOTReturn" 
+    //% block="IOT response"
+    export function getIOTReturn(): Array<string> {
+        return IOTReturnArray;
+    }
+
 }
