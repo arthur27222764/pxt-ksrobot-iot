@@ -6,7 +6,7 @@ namespace KSRobot_IOT {
 
     let IOT_WIFI_CONNECTED = false
     let IOTReturnArray: string[] = []
-    let LocalIP = false
+    let LocalIP = ""
 
 
     //% blockId=Wifi_setup
