@@ -95,5 +95,13 @@ namespace KSRobot_IOT {
         }
     }
 
+    //%blockId=GetIP
+    //%block="Get IP Address"
+    export function GetIP(): string {
+        if (IOT_WIFI_CONNECTED) {
+            return LocalIP;
+        }
+    }
+
 
 }
