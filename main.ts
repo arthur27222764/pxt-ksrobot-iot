@@ -12,6 +12,7 @@ namespace KSRobot_IOT {
     //% blockId=Wifi_setup
     //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd"
     //% weight=99
+    
     export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string): void {
         serial.redirect(
             SerialPin.P15,   //TX
@@ -70,46 +71,5 @@ namespace KSRobot_IOT {
         }
     }
 
-    //% blockId=MQTT_set
-    //% block="Connect MQTT server %host| port %port| client id %clientId| username %username| password %pwd"
-    export function MQTT_set(host: string, port: string, clientId: string, username: string, pwd: string): void {
-        if (IOT_WIFI_CONNECTED) {
-            serial.writeLine("AT+MQTT?host=" + host + "&port=" + port + "&clientId=" + clientId + "&username=" + username + "&password=" + pwd +
-                + "=");
-        }
-    }
-
-    //%blockId=MQTTPublish
-    //% block="MQTT publish topic %topic| payload %payload"
-    export function MQTTPublish(topic: string, payload: string): void {
-        if (IOT_WIFI_CONNECTED) {
-            serial.writeLine("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload + "=");
-        }
-    }
-
-    //%blockId=MQTTSubscribe
-    //% block="MQTT subscribe topic %topic"
-    export function MQTTSubscribe(topic: string): void {
-        if (IOT_WIFI_CONNECTED) {
-            serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
-        }
-    }
-
-    //%blockId=GetIP
-    //%block="Get IP Address"
-    export function GetIP(): string {
-        if (IOT_WIFI_CONNECTED) {
-            return LocalIP;
-        }
-    }
-
-
-    //% blockId="GetIOTReturn" 
-    //% block="IOT response"
-    export function GetIOTReturn(): Array<string> {
-        if (IOT_WIFI_CONNECTED) {
-            return IOTReturnArray;
-        }
-    }
 
 }
