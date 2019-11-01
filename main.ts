@@ -14,10 +14,10 @@ namespace KSRobot_IOT {
     //% weight=99
     export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string): void {
         serial.redirect(
-            txd,   //TX
-            rxd,  //RX
+            SerialPin.P15,   //TX
+            SerialPin.P8,  //RX
             BaudRate.BaudRate115200
-        )
+        );
         serial.setRxBufferSize(256)
         serial.setTxBufferSize(256)
         serial.writeLine("AT+Restart=");
@@ -104,9 +104,9 @@ namespace KSRobot_IOT {
     }
 
 
-    //% blockId="getIOTReturn" 
+    //% blockId="GetIOTReturn" 
     //% block="IOT response"
-    export function getIOTReturn(): Array<string> {
+    export function GetIOTReturn(): Array<string> {
         if (IOT_WIFI_CONNECTED) {
             return IOTReturnArray;
         }
