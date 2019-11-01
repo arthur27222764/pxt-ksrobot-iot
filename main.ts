@@ -22,7 +22,7 @@ namespace KSRobot_IOT {
         serial.setTxBufferSize(256)
         serial.writeLine("AT+Restart=");
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "=");
-        LocalIP ="192.168.1.1"
+        LocalIP = "192.168.1.1"
         IOT_WIFI_CONNECTED = true
     }
 
@@ -82,26 +82,34 @@ namespace KSRobot_IOT {
     //%blockId=MQTTPublish
     //% block="MQTT publish topic %topic| payload %payload"
     export function MQTTPublish(topic: string, payload: string): void {
-        serial.writeLine("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload + "=");
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload + "=");
+        }
     }
 
     //%blockId=MQTTSubscribe
     //% block="MQTT subscribe topic %topic"
     export function MQTTSubscribe(topic: string): void {
-        serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
+        }
     }
 
     //%blockId=GetIP
     //%block="Get IP Address"
     export function GetIP(): string {
-        return LocalIP;
+        if (IOT_WIFI_CONNECTED) {
+            return LocalIP;
+        }
     }
 
-    
+
     //% blockId="getIOTReturn" 
     //% block="IOT response"
     export function getIOTReturn(): Array<string> {
-        return IOTReturnArray;
+        if (IOT_WIFI_CONNECTED) {
+            return IOTReturnArray;
+        }
     }
 
 }
