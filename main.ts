@@ -6,7 +6,6 @@ namespace KSRobot_IOT {
 
     let IOT_WIFI_CONNECTED = false
     let IOTReturnArray: string[] = []
-    let LocalIP = ""
 
 
     //% blockId=Wifi_setup
@@ -22,9 +21,16 @@ namespace KSRobot_IOT {
         serial.setRxBufferSize(128)
         serial.setTxBufferSize(128)
         serial.writeLine("AT+Restart=");
+        control.waitMicros(500000)
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "=");
-        LocalIP = "192.168.1.1"
         IOT_WIFI_CONNECTED = true
+        basic.showString("" + images.createImage(`
+        # # # # #
+        . . . . .
+        . # # # .
+        . . . . .
+        . . # . .
+        `))
     }
 
     //% blockId=ThingSpeak_set
@@ -95,13 +101,7 @@ namespace KSRobot_IOT {
         }
     }
 
-    //%blockId=GetIP
-    //%block="Get IP Address"
-    export function GetIP(): string {
-        if (IOT_WIFI_CONNECTED) {
-            return LocalIP;
-        }
-    }
+
 
 
 }
