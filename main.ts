@@ -20,17 +20,12 @@ namespace KSRobot_IOT {
         );
         serial.setRxBufferSize(128)
         serial.setTxBufferSize(128)
+        control.waitMicros(500000)
         serial.writeLine("AT+Restart=");
         control.waitMicros(500000)
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "=");
         IOT_WIFI_CONNECTED = true
-        basic.showString("" + images.createImage(`
-        # # # # #
-        . . . . .
-        . # # # .
-        . . . . .
-        . . # . .
-        `))
+        
     }
 
     //% blockId=ThingSpeak_set
