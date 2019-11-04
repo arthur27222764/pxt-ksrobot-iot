@@ -11,7 +11,7 @@ namespace KSRobot_IOT {
     //% blockId=Wifi_setup
     //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd"
     //% weight=99
-
+    //% txd.defl= SerialPin.P15 rxd.defl= SerialPin.P8
     export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string): void {
         serial.redirect(
             txd,   //TX
