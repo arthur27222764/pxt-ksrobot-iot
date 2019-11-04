@@ -20,9 +20,9 @@ namespace KSRobot_IOT {
         );
         serial.setRxBufferSize(128)
         serial.setTxBufferSize(128)
-        control.waitMicros(1000000)
+        control.waitMicros(500000)
         serial.writeLine("AT+Restart=");
-        control.waitMicros(1000000)
+        control.waitMicros(500000)
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "=");
         IOT_WIFI_CONNECTED = true
         
@@ -32,7 +32,7 @@ namespace KSRobot_IOT {
     //% block="ThingSpeak Set|Write API key = %api_key|Field 1 = %field1|Field 2 = %field2|Field 3 = %field3|Field 4 = %field4|Field 5 = %field5|Field 6 = %field6|Field 7 = %field7|Field 8 = %field8"
     export function ThingSpeak_set(api_key: string, field1: number, field2: number, field3: number, field4: number, field5: number, field6: number, field7: number, field8: number): void {
         if (IOT_WIFI_CONNECTED) {
-            serial.writeLine("AT+ThingSpeak?host=api.thingspeak.com/update&api_key="
+            serial.writeLine("AT+ThingSpeak?host=http://api.thingspeak.com/update&api_key="
                 + api_key
                 + "&field1="
                 + field1
@@ -58,7 +58,7 @@ namespace KSRobot_IOT {
     //% block="IFTTT Set|Event Name = %event_name| Write API key = %api_key| Value 1 = %value1| Value 2 = %value2| Value 3 = %value3"
     export function IFTTT_set(event_name: string, api_key: string, value1: string, value2: string, value3: string): void {
         if (IOT_WIFI_CONNECTED) {
-            serial.writeLine("AT+IFTTT?host=maker.ifttt.com/trigger/"
+            serial.writeLine("AT+IFTTT?host=http://maker.ifttt.com/trigger/"
                 + event_name
                 + "/with/key/"
                 + api_key
