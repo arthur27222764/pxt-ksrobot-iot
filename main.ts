@@ -14,15 +14,15 @@ namespace KSRobot_IOT {
 
     export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string): void {
         serial.redirect(
-            SerialPin.P15,   //TX
-            SerialPin.P8,  //RX
+            txd,   //TX
+            rxd,  //RX
             BaudRate.BaudRate115200
         );
         serial.setRxBufferSize(128)
         serial.setTxBufferSize(128)
-        control.waitMicros(500000)
+        control.waitMicros(1000000)
         serial.writeLine("AT+Restart=");
-        control.waitMicros(500000)
+        control.waitMicros(1000000)
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "=");
         IOT_WIFI_CONNECTED = true
         
