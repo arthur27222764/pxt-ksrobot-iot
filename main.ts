@@ -97,7 +97,7 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=HTML_POST
-    //% block="HTML POST|Server %host| Header %header| Body %body"
+    //% block="HTML POST Server %host| Header %header| Body %body"
     export function HTML_POST(host: string, header: string, body: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+HTML_POST?host="
@@ -111,7 +111,7 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=TCP_Client
-    //% block="TCP Client|Server %host| Port %port| Send Data %senddata"
+    //% block="TCP Client Server %host| Port %port| Send Data %senddata"
     export function TCP_Client(host: string, port: number, senddata: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+TCP_Client?host="
