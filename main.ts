@@ -25,7 +25,7 @@ namespace KSRobot_IOT {
         control.waitMicros(500000)
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "=");
         IOT_WIFI_CONNECTED = true
-        
+
     }
 
     //% blockId=ThingSpeak_set
@@ -74,7 +74,7 @@ namespace KSRobot_IOT {
 
     //% blockId=MQTT_set
     //% block="Connect MQTT server %host| port %port| client id %clientId| username %username| password %pwd"
-    export function MQTT_set(host: string, port: string, clientId: string, username: string, pwd: string): void {
+    export function MQTT_set(host: string, port: number, clientId: string, username: string, pwd: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+MQTT?host=" + host + "&port=" + port + "&clientId=" + clientId + "&username=" + username + "&password=" + pwd + "=");
         }
@@ -93,6 +93,34 @@ namespace KSRobot_IOT {
     export function MQTTSubscribe(topic: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
+        }
+    }
+
+    //% blockId=HTML_POST
+    //% block="HTML POST|Server %host| Header %header| Body %body"
+    export function HTML_POST(host: string, header: string, body: string): void {
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+HTML_POST?host="
+                + host
+                + "&header="
+                + header
+                + "&body="
+                + body
+                + "=");
+        }
+    }
+
+    //% blockId=TCP_Client
+    //% block="TCP Client|Server %host| Port %port| Send Data %senddata"
+    export function TCP_Client(host: string, port: number, senddata: string): void {
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+TCP_Client?host="
+                + host
+                + "&port="
+                + port
+                + "&senddata="
+                + senddata
+                + "=");
         }
     }
 
