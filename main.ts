@@ -126,7 +126,7 @@ namespace KSRobot_IOT {
 
     //% blockId=Receive_Data
     //% block="IOT Receive Data %receivedata"
-    function Receive_Data(receivedata: string): string {
+    export function Receive_Data(receivedata: string): string {
         return receivedata;
     }
 
