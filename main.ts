@@ -30,7 +30,7 @@ namespace KSRobot_IOT {
     }
 
      //% blockId=Get_IP
-    //% block="Get Loacal IP"
+    //% block="Get Local IP"
     export function Get_IP(): string {
         let receivedata = local_ip
         return receivedata;
