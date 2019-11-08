@@ -99,13 +99,7 @@ namespace KSRobot_IOT {
         }
     }
 
-    //% blockId=MQTT_Data
-    //% block="MQTT Topic %receivedata"
-    export function MQTT_Data(receivedata: string): string {
-        if (IOT_MQTT_CONNECTED) {
-            return receivedata;
-        }
-    }
+    
 
     //% blockId=HTML_POST
     //% block="HTML POST Server %host| Header %header| Body %body"
@@ -135,26 +129,7 @@ namespace KSRobot_IOT {
         }
     }
 
-    //% blockId=TCP_Server
-    //% block="TCP Server Method Port %port"
-    export function TCP_Server(port: number): void {
-        if (IOT_WIFI_CONNECTED) {
-            serial.writeLine("AT+TCP_Server?port="
-                + port
-                + "=");
-        }
-    }
-
-    //% blockId=TCP_SendData
-    //% block="TCP Send Data %senddata"
-    export function TCP_SendData(senddata: string): void {
-        if (IOT_WIFI_CONNECTED) {
-            serial.writeLine("AT+TCP_SendData?senddata="
-                + senddata
-                + "=");
-        }
-    }
-
+    
     //% blockId=Receive_Data
     //% block="IOT Receive Data %receivedata"
     export function Receive_Data(receivedata: string): string {
