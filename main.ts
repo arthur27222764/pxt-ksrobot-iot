@@ -29,6 +29,13 @@ namespace KSRobot_IOT {
 
     }
 
+     //% blockId=Get_IP
+    //% block="Get Loacal IP"
+    export function Get_IP(): string {
+        let receivedata = local_ip
+        return receivedata;
+    }
+
 
 
     //% blockId=ThingSpeak_set
