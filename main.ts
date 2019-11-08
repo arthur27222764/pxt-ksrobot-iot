@@ -7,6 +7,18 @@ namespace KSRobot_IOT {
     let IOT_WIFI_CONNECTED = false
     let IOT_MQTT_CONNECTED = false
     let local_ip = "0.0.0.0"
+    let receive_data = ""
+
+
+    function WifiDataReceived(): void {
+        serial.onDataReceived(serial.delimiters(Delimiters.NewLine), () => {
+
+            receive_data = serial.readLine()
+
+        })
+
+    }
+
 
 
     //% blockId=Wifi_setup
@@ -21,6 +33,7 @@ namespace KSRobot_IOT {
         );
         serial.setRxBufferSize(128)
         serial.setTxBufferSize(128)
+        WifiDataReceived()
         control.waitMicros(500000)
         serial.writeLine("AT+Restart=");
         control.waitMicros(500000)
@@ -29,7 +42,7 @@ namespace KSRobot_IOT {
 
     }
 
-     //% blockId=Get_IP
+    //% blockId=Get_IP
     //% block="Get Local IP"
     export function Get_IP(): string {
         let receivedata = local_ip
@@ -110,7 +123,9 @@ namespace KSRobot_IOT {
     //% blockId=MQTT_Data
     //% block="MQTT Topic %receivedata"
     export function MQTT_Data(receivedata: string): string {
-        return receivedata;
+        if (IOT_MQTT_CONNECTED) {
+            return receivedata;
+        }
     }
 
 
@@ -166,7 +181,7 @@ namespace KSRobot_IOT {
     //% blockId=Receive_Data
     //% block="Receive Data"
     export function Receive_Data(): string {
-        let receivedata = local_ip
+        let receivedata = receive_data
         return receivedata;
     }
 
