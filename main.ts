@@ -6,6 +6,7 @@ namespace KSRobot_IOT {
 
     let IOT_WIFI_CONNECTED = false
     let IOT_MQTT_CONNECTED = false
+    let local_ip = "0.0.0.0"
 
 
     //% blockId=Wifi_setup
@@ -107,7 +108,7 @@ namespace KSRobot_IOT {
 
 
     //% blockId=HTML_POST
-    //% block="HTML POST Server %host| Header %header| Body %body"
+    //% block="HTML_POST Server %host| Header %header| Body %body"
     export function HTML_POST(host: string, header: string, body: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+HTML_POST?host="
@@ -121,7 +122,7 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=TCP_Client
-    //% block="TCP Client Method Server %host| Port %port| Send Data %senddata"
+    //% block="TCP_Client Server %host| Port %port| Send Data %senddata"
     export function TCP_Client(host: string, port: number, senddata: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+TCP_Client?host="
@@ -135,7 +136,7 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=TCP_Server
-    //% block="TCP Server Method Port %port"
+    //% block="TCP_Server Port %port"
     export function TCP_Server(port: number): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+TCP_Server?port="
@@ -144,10 +145,21 @@ namespace KSRobot_IOT {
         }
     }
 
+    //% blockId=TCP_SendData
+    //% block="TCP_Server Send Data %senddata"
+    export function TCP_SendData(senddata: string): void {
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+TCP_SendData?senddata="
+                + senddata
+                + "=");
+        }
+    }
+
 
     //% blockId=Receive_Data
-    //% block="IOT Receive Data %receivedata"
-    export function Receive_Data(receivedata: string): string {
+    //% block="Receive Data"
+    export function Receive_Data(): string {
+        let receivedata = local_ip
         return receivedata;
     }
 
