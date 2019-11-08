@@ -6,8 +6,7 @@ namespace KSRobot_IOT {
 
     let IOT_WIFI_CONNECTED = false
     let IOT_MQTT_CONNECTED = false
-    let IOTReturnArray: string[] = []
-    
+
 
     //% blockId=Wifi_setup
     //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd"
@@ -29,7 +28,7 @@ namespace KSRobot_IOT {
 
     }
 
-    
+
 
     //% blockId=ThingSpeak_set
     //% block="ThingSpeak Set|Write API key = %api_key|Field 1 = %field1|Field 2 = %field2|Field 3 = %field3|Field 4 = %field4|Field 5 = %field5|Field 6 = %field6|Field 7 = %field7|Field 8 = %field8"
