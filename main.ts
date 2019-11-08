@@ -13,7 +13,7 @@ namespace KSRobot_IOT {
     function WifiDataReceived(): void {
         serial.onDataReceived(serial.delimiters(Delimiters.NewLine), () => {
 
-            let temp = = serial.readLine()
+            let temp =  serial.readLine()
 
         })
 
@@ -33,7 +33,7 @@ namespace KSRobot_IOT {
         );
         serial.setRxBufferSize(128)
         serial.setTxBufferSize(128)
-        //WifiDataReceived()
+        WifiDataReceived()
         control.waitMicros(500000)
         serial.writeLine("AT+Restart=");
         control.waitMicros(500000)
