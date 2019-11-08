@@ -7,7 +7,7 @@ namespace KSRobot_IOT {
     let IOT_WIFI_CONNECTED = false
     let IOT_MQTT_CONNECTED = false
     let local_ip = "0.0.0.0"
-    let receive_data = ""
+    let receive_data = "..."
 
 
     /*function WifiDataReceived(): void {
@@ -181,8 +181,8 @@ namespace KSRobot_IOT {
     //% blockId=Receive_Data
     //% block="Receive Data"
     export function Receive_Data(): string {
-        let receivedata = receive_data
-        return receivedata;
+        
+        return receive_data;
     }
 
 
