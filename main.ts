@@ -10,14 +10,14 @@ namespace KSRobot_IOT {
     let receive_data = "..."
 
 
-    /*function WifiDataReceived(): void {
+    function WifiDataReceived(): void {
         serial.onDataReceived(serial.delimiters(Delimiters.NewLine), () => {
 
-            receive_data = serial.readLine()
+            let temp = = serial.readLine()
 
         })
 
-    }*/
+    }
 
 
 
@@ -181,8 +181,8 @@ namespace KSRobot_IOT {
     //% blockId=Receive_Data
     //% block="Receive Data"
     export function Receive_Data(): string {
-        
-        return receive_data;
+        let receivedata = receive_data
+        return receivedata;
     }
 
 
