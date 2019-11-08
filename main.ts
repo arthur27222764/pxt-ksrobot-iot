@@ -134,7 +134,17 @@ namespace KSRobot_IOT {
         }
     }
 
-    
+    //% blockId=TCP_Server
+    //% block="TCP Server Method Port %port"
+    export function TCP_Server(port: number): void {
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+TCP_Server?port="
+                + port
+                + "=");
+        }
+    }
+
+
     //% blockId=Receive_Data
     //% block="IOT Receive Data %receivedata"
     export function Receive_Data(receivedata: string): string {
