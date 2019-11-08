@@ -5,7 +5,9 @@
 namespace KSRobot_IOT {
 
     let IOT_WIFI_CONNECTED = false
+    let IOT_MQTT_CONNECTED = false
     let IOTReturnArray: string[] = []
+    let IP_ADDRESS = "0.0.0.0"
 
 
     //% blockId=Wifi_setup
@@ -23,9 +25,17 @@ namespace KSRobot_IOT {
         control.waitMicros(500000)
         serial.writeLine("AT+Restart=");
         control.waitMicros(500000)
-        serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "=");
+        serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=1=");
         IOT_WIFI_CONNECTED = true
 
+    }
+
+    //% blockId=Get_IP
+    //% block="Get Local IP"
+    export function Get_IP(): string {
+        if (IOT_WIFI_CONNECTED) {
+            return IP_ADDRESS;
+        }
     }
 
     //% blockId=ThingSpeak_set
@@ -77,6 +87,7 @@ namespace KSRobot_IOT {
     export function MQTT_set(host: string, port: number, clientId: string, username: string, pwd: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+MQTT?host=" + host + "&port=" + port + "&clientId=" + clientId + "&username=" + username + "&password=" + pwd + "=");
+            IOT_MQTT_CONNECTED = true
         }
     }
 
@@ -96,6 +107,14 @@ namespace KSRobot_IOT {
         }
     }
 
+    //% blockId=MQTT_Data
+    //% block="MQTT Topic %receivedata"
+    export function MQTT_Data(receivedata: string): string {
+        if (IOT_MQTT_CONNECTED) {
+            return receivedata;
+        }
+    }
+
     //% blockId=HTML_POST
     //% block="HTML POST Server %host| Header %header| Body %body"
     export function HTML_POST(host: string, header: string, body: string): void {
@@ -111,7 +130,7 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=TCP_Client
-    //% block="TCP Client Server %host| Port %port| Send Data %senddata"
+    //% block="TCP Client Method Server %host| Port %port| Send Data %senddata"
     export function TCP_Client(host: string, port: number, senddata: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+TCP_Client?host="
@@ -119,6 +138,26 @@ namespace KSRobot_IOT {
                 + "&port="
                 + port
                 + "&senddata="
+                + senddata
+                + "=");
+        }
+    }
+
+    //% blockId=TCP_Server
+    //% block="TCP Server Method Port %port"
+    export function TCP_Server(port: number): void {
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+TCP_Server?port="
+                + port
+                + "=");
+        }
+    }
+
+    //% blockId=TCP_SendData
+    //% block="TCP Send Data %senddata"
+    export function TCP_SendData(senddata: string): void {
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+TCP_SendData?senddata="
                 + senddata
                 + "=");
         }
