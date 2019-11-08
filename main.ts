@@ -7,8 +7,7 @@ namespace KSRobot_IOT {
     let IOT_WIFI_CONNECTED = false
     let IOT_MQTT_CONNECTED = false
     let IOTReturnArray: string[] = []
-    let IP_ADDRESS: string = "0.0.0.0"
-
+    
 
     //% blockId=Wifi_setup
     //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd"
@@ -30,13 +29,7 @@ namespace KSRobot_IOT {
 
     }
 
-    //% blockId=Get_IP
-    //% block="Get Local IP"
-    export function Get_IP(): string {
-        if (IOT_WIFI_CONNECTED) {
-            return IP_ADDRESS;
-        }
-    }
+    
 
     //% blockId=ThingSpeak_set
     //% block="ThingSpeak Set|Write API key = %api_key|Field 1 = %field1|Field 2 = %field2|Field 3 = %field3|Field 4 = %field4|Field 5 = %field5|Field 6 = %field6|Field 7 = %field7|Field 8 = %field8"
