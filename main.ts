@@ -99,7 +99,12 @@ namespace KSRobot_IOT {
         }
     }
 
-    
+    //% blockId=MQTT_Data
+    //% block="MQTT Topic %receivedata"
+    export function MQTT_Data(receivedata: string): string {
+        return receivedata;
+    }
+
 
     //% blockId=HTML_POST
     //% block="HTML POST Server %host| Header %header| Body %body"
