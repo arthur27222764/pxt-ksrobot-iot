@@ -1,20 +1,68 @@
 /**
  * KSRobot_IOT V0.010
  */
-//% weight=10 color=#00A6F0 icon="\uf1eb" block="KSRobot_IOT"
+// % weight=10 color=#00A6F0 icon="\uf1eb"
+// block="KSRobot_IOT"
 namespace KSRobot_IOT {
 
     let IOT_WIFI_CONNECTED = false
     let IOT_MQTT_CONNECTED = false
     let local_ip = "0.0.0.0"
+    let ap_ip = "FFFF"
+    let temp_name = ""
     let iot_receive_data = ""
+    let receive_topic_name = ""
+    let receive_topic_value = ""
+
 
 
 
     function WifiDataReceived(): void {
         serial.onDataReceived(serial.delimiters(Delimiters.NewLine), () => {
 
+            let compare_str0 = "="
+            let compare_str1 = "@#$@TOPIC$"
+            let compare_str2 = "@#$@STIP$"
+            let compare_str3 = "@#$@APIP$"
+            let strlen4 = 0
+            let strlen3 = 0
+            let strlen2 = 0
+            let strlen1 = 0
+
             iot_receive_data = serial.readLine()
+
+            if (iot_receive_data.indexOf(compare_str1) >= 0) {
+                // parse mqtt topic
+                strlen1 = iot_receive_data.indexOf(compare_str1) + compare_str1.length
+                strlen2 = iot_receive_data.indexOf(compare_str0) - strlen1
+                strlen3 = iot_receive_data.indexOf(compare_str0) + compare_str0.length
+                strlen4 = iot_receive_data.length - strlen3
+                receive_topic_name = iot_receive_data.substr(strlen1, strlen2)
+                receive_topic_value = iot_receive_data.substr(strlen3, strlen4)
+            }
+            // parse Local IP
+            if (iot_receive_data.indexOf(compare_str2) >= 0) {
+                strlen1 = iot_receive_data.indexOf(compare_str2) + compare_str2.length
+                strlen2 = iot_receive_data.indexOf(compare_str0) - strlen2
+                strlen3 = iot_receive_data.indexOf(compare_str0) + compare_str0.length
+                strlen4 = iot_receive_data.length - strlen3
+                temp_name = iot_receive_data.substr(strlen1, strlen2)
+                local_ip = iot_receive_data.substr(strlen3, strlen4)
+            }
+            // parse AP information
+            if (iot_receive_data.indexOf(compare_str3) >= 0) {
+                strlen1 = iot_receive_data.indexOf(compare_str3) + compare_str3.length
+                strlen2 = iot_receive_data.indexOf(compare_str0) - strlen3
+                strlen3 = iot_receive_data.indexOf(compare_str0) + compare_str0.length
+                strlen4 = iot_receive_data.length - strlen3
+                temp_name = iot_receive_data.substr(strlen1, strlen2)
+                ap_ip = iot_receive_data.substr(strlen3, strlen4)
+            }
+
+
+
+
+
 
         })
 
@@ -38,7 +86,7 @@ namespace KSRobot_IOT {
         control.waitMicros(500000)
         serial.writeLine("AT+Restart=");
         control.waitMicros(500000)
-        serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=1=");
+        serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=0=");
         IOT_WIFI_CONNECTED = true
 
     }
@@ -46,8 +94,7 @@ namespace KSRobot_IOT {
     //% blockId=Get_IP
     //% block="Get Local IP"
     export function Get_IP(): string {
-        let receivedata = local_ip
-        return receivedata;
+        return local_ip;
     }
 
 
@@ -125,7 +172,12 @@ namespace KSRobot_IOT {
     //% block="MQTT Topic %receivedata"
     export function MQTT_Data(receivedata: string): string {
 
-        return receivedata;
+
+        if (receivedata.compare(receive_topic_name) == 0) {
+            return receive_topic_value;
+        }
+        else
+            return "";
 
     }
 
@@ -182,11 +234,9 @@ namespace KSRobot_IOT {
     //% blockId=Receive_Data
     //% block="Receive Data"
     export function Receive_Data(): string {
-        let receivedata = iot_receive_data
-        return receivedata;
+
+        return iot_receive_data;
     }
-
-
 
 
 }
