@@ -71,10 +71,10 @@ namespace KSRobot_IOT {
 
 
     //% blockId=Wifi_setup
-    //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd"
+    //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd| AP %ap"
     //% weight=99
     //% txd.defl= SerialPin.P15 rxd.defl= SerialPin.P8
-    export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string): void {
+    export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string, ap: number): void {
         serial.redirect(
             txd,   //TX
             rxd,  //RX
@@ -86,7 +86,7 @@ namespace KSRobot_IOT {
         control.waitMicros(500000)
         serial.writeLine("AT+Restart=");
         control.waitMicros(500000)
-        serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=0=");
+        serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=" + ap + "=");
         IOT_WIFI_CONNECTED = true
 
     }
@@ -96,7 +96,11 @@ namespace KSRobot_IOT {
     export function Get_IP(): string {
         return local_ip;
     }
-
+    //% blockId=AP_Name
+    //% block="IOT AP Name"
+    export function AP_Name(): string {
+        return ap_ip;
+    }
 
 
     //% blockId=ThingSpeak_set
@@ -190,7 +194,7 @@ namespace KSRobot_IOT {
                 + host
                 + "&header="
                 + header
-                + "&body="
+                + "&senddata="
                 + body
                 + "=");
         }
@@ -229,6 +233,15 @@ namespace KSRobot_IOT {
                 + "=");
         }
     }
+
+    //% blockId=TCP_Close
+    //% block="TCP_Server Send Data %senddata"
+    export function TCP_Close(): void {
+        if (IOT_WIFI_CONNECTED) {
+            serial.writeLine("AT+TCP_Close=");
+        }
+    }
+
 
 
     //% blockId=Receive_Data
