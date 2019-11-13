@@ -13,7 +13,12 @@ namespace KSRobot_IOT {
     let iot_receive_data = ""
     let receive_topic_name = ""
     let receive_topic_value = ""
-
+    
+    export enum IOT_Config {
+        STATION = 0,
+        STATION_AP = 1,
+        
+     }
 
 
 
@@ -74,7 +79,7 @@ namespace KSRobot_IOT {
     //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd| AP %ap"
     //% weight=99
     //% txd.defl= SerialPin.P15 rxd.defl= SerialPin.P8
-    export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string, ap: number): void {
+    export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string, ap: IOT_Config): void {
         serial.redirect(
             txd,   //TX
             rxd,  //RX
