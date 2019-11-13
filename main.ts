@@ -225,7 +225,7 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=TCP_SendData
-    //% block="TCP_Server Send Data %senddata"
+    //% block="TCP Send Data %senddata"
     export function TCP_SendData(senddata: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+TCP_SendData?senddata="
@@ -235,7 +235,7 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=TCP_Close
-    //% block="TCP_Server Send Data %senddata"
+    //% block="TCP_Client Close Connection"
     export function TCP_Close(): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+TCP_Close=");
