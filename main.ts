@@ -13,12 +13,12 @@ namespace KSRobot_IOT {
     let iot_receive_data = ""
     let receive_topic_name = ""
     let receive_topic_value = ""
-    
+
     export enum IOT_Config {
         STATION = 0,
         STATION_AP = 1,
-        
-     }
+
+    }
 
 
 
@@ -53,6 +53,14 @@ namespace KSRobot_IOT {
                 strlen4 = iot_receive_data.length - strlen3
                 temp_name = iot_receive_data.substr(strlen1, strlen2)
                 local_ip = iot_receive_data.substr(strlen3, strlen4)
+                IOT_WIFI_CONNECTED = true
+                basic.showLeds(`
+                . # # # .
+                # # # # #
+                . # # # .
+                . . # . .
+                . . # . .
+                `)
             }
             // parse AP information
             if (iot_receive_data.indexOf(compare_str3) >= 0) {
@@ -73,12 +81,16 @@ namespace KSRobot_IOT {
 
     }
 
-
-
+    
+   /**
+     * Set KSRobot WIFI IOT Module 
+     * @param txd Iot module to micro:bit ; eg: SerialPin.P15
+     * @param rxd micro:bit to Iot module ; eg: SerialPin.P8
+     */
     //% blockId=Wifi_setup
     //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd| AP %ap"
     //% weight=99
-    //% txd.defl= SerialPin.P15 rxd.defl= SerialPin.P8
+
     export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string, ap: IOT_Config): void {
         serial.redirect(
             txd,   //TX
@@ -92,7 +104,7 @@ namespace KSRobot_IOT {
         serial.writeLine("AT+Restart=");
         control.waitMicros(500000)
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=" + ap + "=");
-        IOT_WIFI_CONNECTED = true
+
 
     }
 
