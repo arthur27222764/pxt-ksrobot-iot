@@ -119,6 +119,12 @@ namespace KSRobot_IOT {
         return ap_ip;
     }
 
+    //% blockId=Wifi_Connection
+    //% block="Wifi Connection"
+    export function Wifi_Connection(): boolean {
+        return IOT_WIFI_CONNECTED;
+    }
+
 
     //% blockId=ThingSpeak_set
     //% block="ThingSpeak Set|Write API key = %api_key|Field 1 = %field1|Field 2 = %field2|Field 3 = %field3|Field 4 = %field4|Field 5 = %field5|Field 6 = %field6|Field 7 = %field7|Field 8 = %field8"
