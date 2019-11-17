@@ -125,11 +125,10 @@ namespace KSRobot_IOT {
         return IOT_WIFI_CONNECTED;
     }
 
-
     //% blockId=ThingSpeak_set 
     //% expandableArgumentMode"toggle" inlineInputMode=inline
-    //% block="ThingSpeak Set|Write API key = %api_key|Field 1 = %field1|Field 2 = %field2|Field 3 = %field3|Field 4 = %field4|Field 5 = %field5|Field 6 = %field6|Field 7 = %field7|Field 8 = %field8"
-    export function ThingSpeak_set(api_key: string, field1: number, field2: number, field3: number, field4: number, field5: number, field6: number, field7: number, field8: number): void {
+    //% block="ThingSpeak Set|Write API key = %api_key Field 1 = %field1 || Field 2 = %field2 Field 3 = %field3 Field 4 = %field4 Field 5 = %field5 Field 6 = %field6 Field 7 = %field7 Field 8 = %field8"
+    export function ThingSpeak_set(api_key: string, field1: number, field2?: number, field3?: number, field4?: number, field5?: number, field6?: number, field7?: number, field8?: number): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+ThingSpeak?host=http://api.thingspeak.com/update&api_key="
                 + api_key
@@ -154,8 +153,9 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=IFTTT_set
-    //% block="IFTTT Set|Event Name = %event_name| Write API key = %api_key| Value 1 = %value1| Value 2 = %value2| Value 3 = %value3"
-    export function IFTTT_set(event_name: string, api_key: string, value1: string, value2: string, value3: string): void {
+    //% expandableArgumentMode"toggle" inlineInputMode=inline
+    //% block="IFTTT Set|Event Name = %event_name Write API key = %api_key Value 1 = %value1 || Value 2 = %value2 Value 3 = %value3"
+    export function IFTTT_set(event_name: string, api_key: string, value1: string, value2?: string, value3?: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+IFTTT?host=http://maker.ifttt.com/trigger/"
                 + event_name
