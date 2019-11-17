@@ -81,12 +81,12 @@ namespace KSRobot_IOT {
 
     }
 
-    
-   /**
-     * Set KSRobot WIFI IOT Module 
-     * @param txd Iot module to micro:bit ; eg: SerialPin.P15
-     * @param rxd micro:bit to Iot module ; eg: SerialPin.P8
-     */
+
+    /**
+      * Set KSRobot WIFI IOT Module 
+      * @param txd Iot module to micro:bit ; eg: SerialPin.P15
+      * @param rxd micro:bit to Iot module ; eg: SerialPin.P8
+      */
     //% blockId=Wifi_setup
     //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd| AP %ap"
     //% weight=99
@@ -126,7 +126,8 @@ namespace KSRobot_IOT {
     }
 
 
-    //% blockId=ThingSpeak_set
+    //% blockId=ThingSpeak_set 
+    //% expandableArgumentMode"toggle" inlineInputMode=inline
     //% block="ThingSpeak Set|Write API key = %api_key|Field 1 = %field1|Field 2 = %field2|Field 3 = %field3|Field 4 = %field4|Field 5 = %field5|Field 6 = %field6|Field 7 = %field7|Field 8 = %field8"
     export function ThingSpeak_set(api_key: string, field1: number, field2: number, field3: number, field4: number, field5: number, field6: number, field7: number, field8: number): void {
         if (IOT_WIFI_CONNECTED) {
@@ -182,7 +183,7 @@ namespace KSRobot_IOT {
     //%blockId=MQTTPublish
     //% block="MQTT publish topic %topic| payload %payload"
     export function MQTTPublish(topic: string, payload: string): void {
-        if (IOT_WIFI_CONNECTED) {
+        if (IOT_MQTT_CONNECTED) {
             serial.writeLine("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload + "=");
         }
     }
@@ -190,7 +191,7 @@ namespace KSRobot_IOT {
     //%blockId=MQTTSubscribe
     //% block="MQTT subscribe topic %topic"
     export function MQTTSubscribe(topic: string): void {
-        if (IOT_WIFI_CONNECTED) {
+        if (IOT_MQTT_CONNECTED) {
             serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
         }
     }
@@ -198,7 +199,6 @@ namespace KSRobot_IOT {
     //% blockId=MQTT_Data
     //% block="MQTT Topic %receivedata"
     export function MQTT_Data(receivedata: string): string {
-
 
         if (receivedata.compare(receive_topic_name) == 0) {
             return receive_topic_value;
