@@ -218,8 +218,7 @@ namespace KSRobot_IOT {
                 + "&header="
                 + header
                 + "&senddata="
-                + body
-                + "=");
+                + body);
         }
     }
 
@@ -232,8 +231,7 @@ namespace KSRobot_IOT {
                 + "&port="
                 + port
                 + "&senddata="
-                + senddata
-                + "=");
+                + senddata);
         }
     }
 
@@ -252,8 +250,7 @@ namespace KSRobot_IOT {
     export function TCP_SendData(senddata: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+TCP_SendData?senddata="
-                + senddata
-                + "=");
+                + senddata);
         }
     }
 
