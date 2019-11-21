@@ -154,7 +154,7 @@ namespace KSRobot_IOT {
 
     //% blockId=IFTTT_set
     //% expandableArgumentMode"toggle" inlineInputMode=inline
-    //% block="IFTTT Set| Event Name = %event_name| Write API key = %api_key| Value 1 = %value1 || Value 2 = %value2| Value 3 = %value3"
+    //% block="IFTTT Set| Event Name = %event_name| Write API key = %api_key| Value 1 = %value1|| Value 2 = %value2| Value 3 = %value3"
     export function IFTTT_set(event_name: string, api_key: string, value1: string, value2?: string, value3?: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+IFTTT?host=http://maker.ifttt.com/trigger/"
