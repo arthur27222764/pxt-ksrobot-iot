@@ -88,7 +88,7 @@ namespace KSRobot_IOT {
       * @param rxd micro:bit to Iot module ; eg: SerialPin.P8
       */
     //% blockId=Wifi_setup
-    //% block="KSRobot WIFI Set | TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd| AP %ap"
+    //% block="KSRobot WIFI Set| TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd| AP %ap"
     //% weight=99
 
     export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string, ap: IOT_Config): void {
@@ -127,7 +127,7 @@ namespace KSRobot_IOT {
 
     //% blockId=ThingSpeak_set 
     //% expandableArgumentMode"toggle" inlineInputMode=inline
-    //% block="ThingSpeak Set|Write API key = %api_key Field 1 = %field1 || Field 2 = %field2 Field 3 = %field3 Field 4 = %field4 Field 5 = %field5 Field 6 = %field6 Field 7 = %field7 Field 8 = %field8"
+    //% block="ThingSpeak Set| Write API key = %api_key| Field 1 = %field1|| Field 2 = %field2| Field 3 = %field3| Field 4 = %field4| Field 5 = %field5| Field 6 = %field6| Field 7 = %field7| Field 8 = %field8"
     export function ThingSpeak_set(api_key: string, field1: number, field2?: number, field3?: number, field4?: number, field5?: number, field6?: number, field7?: number, field8?: number): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+ThingSpeak?host=http://api.thingspeak.com/update&api_key="
@@ -154,7 +154,7 @@ namespace KSRobot_IOT {
 
     //% blockId=IFTTT_set
     //% expandableArgumentMode"toggle" inlineInputMode=inline
-    //% block="IFTTT Set|Event Name = %event_name Write API key = %api_key Value 1 = %value1 || Value 2 = %value2 Value 3 = %value3"
+    //% block="IFTTT Set| Event Name = %event_name| Write API key = %api_key| Value 1 = %value1 || Value 2 = %value2| Value 3 = %value3"
     export function IFTTT_set(event_name: string, api_key: string, value1: string, value2?: string, value3?: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+IFTTT?host=http://maker.ifttt.com/trigger/"
@@ -172,7 +172,7 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=MQTT_set
-    //% block="Connect MQTT | server %host| port %port| client id %clientId| username %username| password %pwd"
+    //% block="Connect MQTT| server %host| port %port| client id %clientId| username %username| password %pwd"
     export function MQTT_set(host: string, port: number, clientId: string, username: string, pwd: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+MQTT?host=" + host + "&port=" + port + "&clientId=" + clientId + "&username=" + username + "&password=" + pwd + "=");
@@ -181,7 +181,7 @@ namespace KSRobot_IOT {
     }
 
     //%blockId=MQTTPublish
-    //% block="MQTT publish topic %topic| payload %payload"
+    //% block="MQTT publish topic %topic payload %payload"
     export function MQTTPublish(topic: string, payload: string): void {
         if (IOT_MQTT_CONNECTED) {
             serial.writeLine("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload + "=");
@@ -223,7 +223,7 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=TCP_Client
-    //% block="TCP_Client Server %host| Port %port| Send Data %senddata"
+    //% block="TCP_Client Server %host Port %port Send Data %senddata"
     export function TCP_Client(host: string, port: number, senddata: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+TCP_Client?host="
