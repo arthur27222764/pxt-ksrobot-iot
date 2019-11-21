@@ -9,7 +9,7 @@
     "files": [
         "main.ts",
         "README.md",
-        "_locales/zh/KSRobot_IOT.json" 
+        "_locales/zh/KSRobot_IOT-strings.json" 
         
     ],
     "public": true
