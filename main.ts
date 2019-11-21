@@ -172,7 +172,7 @@ namespace KSRobot_IOT {
     }
 
     //% blockId=MQTT_set
-    //% block="Connect MQTT server %host| port %port| client id %clientId| username %username| password %pwd"
+    //% block="Connect MQTT | server %host| port %port| client id %clientId| username %username| password %pwd"
     export function MQTT_set(host: string, port: number, clientId: string, username: string, pwd: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+MQTT?host=" + host + "&port=" + port + "&clientId=" + clientId + "&username=" + username + "&password=" + pwd + "=");
