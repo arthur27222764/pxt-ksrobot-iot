@@ -8,7 +8,7 @@ namespace KSRobot_IOT {
     let IOT_WIFI_CONNECTED = false
     let IOT_MQTT_CONNECTED = false
     let local_ip = "0.0.0.0"
-    let ap_ip = ""
+    let ap_ip = "FFFF"
     let temp_name = ""
     let iot_receive_data = ""
     let receive_topic_name = ""
@@ -248,7 +248,7 @@ namespace KSRobot_IOT {
     //% blockId=TCP_Server
     //% block="TCP_Server Port %port"
     export function TCP_Server(port: number): void {
-        if (IOT_WIFI_CONNECTED || ap_ip != "") {
+        if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+TCP_Server?port="
                 + port
                 + "=");
@@ -258,7 +258,7 @@ namespace KSRobot_IOT {
     //% blockId=TCP_SendData
     //% block="TCP Send Data %senddata"
     export function TCP_SendData(senddata: string): void {
-        if (IOT_WIFI_CONNECTED || ap_ip != "") {
+        if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+TCP_SendData?senddata="
                 + senddata);
         }
