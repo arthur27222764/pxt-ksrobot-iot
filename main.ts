@@ -35,7 +35,8 @@ namespace KSRobot_IOT {
             let strlen1 = 0
 
             iot_receive_data = serial.readLine()
-
+            iot_receive_data=iot_receive_data.substr(0,iot_receive_data.length-1)
+            
             if (iot_receive_data.indexOf(compare_str1) >= 0) {
                 // parse mqtt topic
                 strlen1 = iot_receive_data.indexOf(compare_str1) + compare_str1.length
@@ -71,9 +72,6 @@ namespace KSRobot_IOT {
                 temp_name = iot_receive_data.substr(strlen1, strlen2)
                 ap_ip = iot_receive_data.substr(strlen3, strlen4)
             }
-
-
-
 
 
 
