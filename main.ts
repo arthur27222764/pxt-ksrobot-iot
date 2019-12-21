@@ -36,7 +36,7 @@ namespace KSRobot_IOT {
 
             iot_receive_data = serial.readLine()
             iot_receive_data=iot_receive_data.substr(0,iot_receive_data.length-1)
-            
+
             if (iot_receive_data.indexOf(compare_str1) >= 0) {
                 // parse mqtt topic
                 strlen1 = iot_receive_data.indexOf(compare_str1) + compare_str1.length
@@ -185,6 +185,7 @@ namespace KSRobot_IOT {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+MQTT?host=" + host + "&port=" + port + "&clientId=" + clientId + "&username=" + username + "&password=" + pwd + "=");
             IOT_MQTT_CONNECTED = true
+            control.waitMicros(500000)
         }
     }
 
@@ -201,6 +202,7 @@ namespace KSRobot_IOT {
     export function MQTTSubscribe(topic: string): void {
         if (IOT_MQTT_CONNECTED) {
             serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
+            control.waitMicros(500000)
         }
     }
 
@@ -209,6 +211,7 @@ namespace KSRobot_IOT {
     export function MQTT_Data(receivedata: string): string {
 
         if (receivedata.compare(receive_topic_name) == 0) {
+            //receive_topic_name=""
             return receive_topic_value;
         }
         else
