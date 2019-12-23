@@ -42,7 +42,7 @@ namespace KSRobot_IOT {
         public message: string;
     }
 
-    //% shim=KSRobotCPP::start_forevers
+    //% shim=KSRobot_IOT::obloqforevers
     function obloqforevers(a: Action): void {
         return
     }
