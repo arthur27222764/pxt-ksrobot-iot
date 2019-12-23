@@ -73,7 +73,7 @@ namespace KSRobot_IOT {
                 receive_topic_value = iot_receive_data.substr(strlen3, strlen4)
 
 
-                switch (receive_topic_name) {
+                switch (OBLOQ_ANSWER_CMD) {
                     case MQTT_TOPIC[0]: { if (MQTT_CB[0] != null) forever(MQTT_CB[0]); } break;
                     case MQTT_TOPIC[1]: { if (MQTT_CB[1] != null) forever(MQTT_CB[1]); } break;
                     case MQTT_TOPIC[2]: { if (MQTT_CB[2] != null) forever(MQTT_CB[2]); } break;
@@ -366,7 +366,7 @@ namespace KSRobot_IOT {
         Obloq_mqtt_callback_more(top, () => {
             const packet = new PacketaMqtt()
             OBLOQ_ANSWER_CONTENT = receive_topic_value
-            packet.message = receive_topic_value
+            packet.message = OBLOQ_ANSWER_CONTENT
             cb(packet.message)
 
         });
