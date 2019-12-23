@@ -326,7 +326,7 @@ namespace KSRobot_IOT {
     export function Obloq_mqtt_callback_user_more(top: TOPIC, cb: (message: string) => void) {
         Obloq_mqtt_callback_more(top, () => {
             const packet = new PacketaMqtt()
-            packet.message = OBLOQ_ANSWER_CONTENT
+            packet.message = receive_topic_value
             cb(packet.message)
             
 
