@@ -13,21 +13,19 @@ namespace KSRobot_IOT {
     let iot_receive_data = ""
     let receive_topic_name = ""
     let receive_topic_value = ""
-
-
-    const OBLOQ_STR_TYPE_IS_NONE = ""
-    let OBLOQ_MQTT_TOPIC = ["", "", "", "", ""]
-    let OBLOQ_MQTT_CB: Action[] = [null, null, null, null, null]
-    let OBLOQ_ANSWER_CONTENT = OBLOQ_STR_TYPE_IS_NONE
-    let OBLOQ_ANSWER_CMD = OBLOQ_STR_TYPE_IS_NONE
+  
+    let MQTT_TOPIC = ["", "", "", "", ""]
+    let MQTT_CB: Action[] = [null, null, null, null, null]
+    let OBLOQ_ANSWER_CONTENT = ""
+    let OBLOQ_ANSWER_CMD = ""
 
     //topics name
     export enum TOPIC {
-        topic_0 = 0,
-        topic_1 = 1,
-        topic_2 = 2,
-        topic_3 = 3,
-        topic_4 = 4
+        Topic0 = 0,
+        Topic1 = 1,
+        Topic2 = 2,
+        Topic3 = 3,
+        Topic4 = 4
     }
 
     export class PacketaMqtt {
@@ -75,12 +73,12 @@ namespace KSRobot_IOT {
                 receive_topic_value = iot_receive_data.substr(strlen3, strlen4)
 
 
-                switch (OBLOQ_ANSWER_CMD) {
-                    case OBLOQ_MQTT_TOPIC[0]: { if (OBLOQ_MQTT_CB[0] != null) forever(OBLOQ_MQTT_CB[0]); } break;
-                    case OBLOQ_MQTT_TOPIC[1]: { if (OBLOQ_MQTT_CB[1] != null) forever(OBLOQ_MQTT_CB[1]); } break;
-                    case OBLOQ_MQTT_TOPIC[2]: { if (OBLOQ_MQTT_CB[2] != null) forever(OBLOQ_MQTT_CB[2]); } break;
-                    case OBLOQ_MQTT_TOPIC[3]: { if (OBLOQ_MQTT_CB[3] != null) forever(OBLOQ_MQTT_CB[3]); } break;
-                    case OBLOQ_MQTT_TOPIC[4]: { if (OBLOQ_MQTT_CB[4] != null) forever(OBLOQ_MQTT_CB[4]); } break;
+                switch (receive_topic_name) {
+                    case MQTT_TOPIC[0]: { if (MQTT_CB[0] != null) forever(MQTT_CB[0]); } break;
+                    case MQTT_TOPIC[1]: { if (MQTT_CB[1] != null) forever(MQTT_CB[1]); } break;
+                    case MQTT_TOPIC[2]: { if (MQTT_CB[2] != null) forever(MQTT_CB[2]); } break;
+                    case MQTT_TOPIC[3]: { if (MQTT_CB[3] != null) forever(MQTT_CB[3]); } break;
+                    case MQTT_TOPIC[4]: { if (MQTT_CB[4] != null) forever(MQTT_CB[4]); } break;
                 }
 
             }
@@ -239,7 +237,7 @@ namespace KSRobot_IOT {
     export function MQTTSubscribe(topic: string): void {
         if (IOT_MQTT_CONNECTED) {
             serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
-            control.waitMicros(500000)
+            control.waitMicros(600000)
         }
     }
 
@@ -323,11 +321,11 @@ namespace KSRobot_IOT {
     export function Obloq_mqtt_send_message_more(top: TOPIC, payload: string): void {
         if (IOT_MQTT_CONNECTED) {
             switch (top) {
-                case TOPIC.topic_0: serial.writeLine("AT+MQTT_Publish?topic=" + OBLOQ_MQTT_TOPIC[0] + "&payload=" + payload + "="); break;
-                case TOPIC.topic_1: serial.writeLine("AT+MQTT_Publish?topic=" + OBLOQ_MQTT_TOPIC[1] + "&payload=" + payload + "="); break;
-                case TOPIC.topic_2: serial.writeLine("AT+MQTT_Publish?topic=" + OBLOQ_MQTT_TOPIC[2] + "&payload=" + payload + "="); break;
-                case TOPIC.topic_3: serial.writeLine("AT+MQTT_Publish?topic=" + OBLOQ_MQTT_TOPIC[3] + "&payload=" + payload + "="); break;
-                case TOPIC.topic_4: serial.writeLine("AT+MQTT_Publish?topic=" + OBLOQ_MQTT_TOPIC[4] + "&payload=" + payload + "="); break;
+                case TOPIC.Topic0: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[0] + "&payload=" + payload + "="); break;
+                case TOPIC.Topic1: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[1] + "&payload=" + payload + "="); break;
+                case TOPIC.Topic2: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[2] + "&payload=" + payload + "="); break;
+                case TOPIC.Topic3: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[3] + "&payload=" + payload + "="); break;
+                case TOPIC.Topic4: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[4] + "&payload=" + payload + "="); break;
             }
         }
     }
@@ -338,9 +336,9 @@ namespace KSRobot_IOT {
     //% block="MQTT subscribe  %top |: %topic"
     export function Obloq_mqtt_add_topic(top: TOPIC, topic: string): void {
         if (IOT_MQTT_CONNECTED) {
-            OBLOQ_MQTT_TOPIC[top] = topic
+            MQTT_TOPIC[top] = topic
             serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
-            control.waitMicros(500000)
+            control.waitMicros(600000)
         }
 
 
@@ -348,11 +346,11 @@ namespace KSRobot_IOT {
 
     function Obloq_mqtt_callback_more(top: TOPIC, a: Action): void {
         switch (top) {
-            case TOPIC.topic_0: OBLOQ_MQTT_CB[0] = a; break;
-            case TOPIC.topic_1: OBLOQ_MQTT_CB[1] = a; break;
-            case TOPIC.topic_2: OBLOQ_MQTT_CB[2] = a; break;
-            case TOPIC.topic_3: OBLOQ_MQTT_CB[3] = a; break;
-            case TOPIC.topic_4: OBLOQ_MQTT_CB[4] = a; break;
+            case TOPIC.Topic0: MQTT_CB[0] = a; break;
+            case TOPIC.Topic1: MQTT_CB[1] = a; break;
+            case TOPIC.Topic2: MQTT_CB[2] = a; break;
+            case TOPIC.Topic3: MQTT_CB[3] = a; break;
+            case TOPIC.Topic4: MQTT_CB[4] = a; break;
         }
     }
 
@@ -368,7 +366,7 @@ namespace KSRobot_IOT {
         Obloq_mqtt_callback_more(top, () => {
             const packet = new PacketaMqtt()
             OBLOQ_ANSWER_CONTENT = receive_topic_value
-            packet.message = OBLOQ_ANSWER_CONTENT
+            packet.message = receive_topic_value
             cb(packet.message)
 
         });
