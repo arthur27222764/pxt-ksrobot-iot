@@ -73,13 +73,21 @@ namespace KSRobot_IOT {
                 receive_topic_name = iot_receive_data.substr(strlen1, strlen2)
                 OBLOQ_ANSWER_CMD = receive_topic_name
                 receive_topic_value = iot_receive_data.substr(strlen3, strlen4)
-                if (OBLOQ_MQTT_CB[0] != null) obloqforevers(OBLOQ_MQTT_CB[0]);
-                switch (OBLOQ_ANSWER_CMD) {
+                basic.showString(OBLOQ_ANSWER_CMD);
+                //if (OBLOQ_MQTT_CB[0] != null) obloqforevers(OBLOQ_MQTT_CB[0]);
+                /*switch (OBLOQ_ANSWER_CMD) {
                     case OBLOQ_MQTT_TOPIC[0][0]: { if (OBLOQ_MQTT_CB[0] != null) obloqforevers(OBLOQ_MQTT_CB[0]); } break;
                     case OBLOQ_MQTT_TOPIC[1][0]: { if (OBLOQ_MQTT_CB[1] != null) obloqforevers(OBLOQ_MQTT_CB[1]); } break;
                     case OBLOQ_MQTT_TOPIC[2][0]: { if (OBLOQ_MQTT_CB[2] != null) obloqforevers(OBLOQ_MQTT_CB[2]); } break;
                     case OBLOQ_MQTT_TOPIC[3][0]: { if (OBLOQ_MQTT_CB[3] != null) obloqforevers(OBLOQ_MQTT_CB[3]); } break;
                     case OBLOQ_MQTT_TOPIC[4][0]: { if (OBLOQ_MQTT_CB[4] != null) obloqforevers(OBLOQ_MQTT_CB[4]); } break;
+                }*/
+                switch (OBLOQ_ANSWER_CMD) {
+                    case OBLOQ_MQTT_TOPIC[0][0]: { basic.showString("0"); } break;
+                    case OBLOQ_MQTT_TOPIC[1][0]: { basic.showString("1"); } break;
+                    case OBLOQ_MQTT_TOPIC[2][0]: { basic.showString("2");} break;
+                    case OBLOQ_MQTT_TOPIC[3][0]: { basic.showString("3"); } break;
+                    case OBLOQ_MQTT_TOPIC[4][0]: { basic.showString("4"); } break;
                 }
             }
             // parse Local IP
@@ -366,7 +374,8 @@ namespace KSRobot_IOT {
     export function Obloq_mqtt_callback_user_more(top: TOPIC, cb: (message: string) => void) {
         Obloq_mqtt_callback_more(top, () => {
             const packet = new PacketaMqtt()
-            packet.message = receive_topic_value
+            OBLOQ_ANSWER_CONTENT = receive_topic_value
+            packet.message = OBLOQ_ANSWER_CONTENT
             cb(packet.message)
 
         });
