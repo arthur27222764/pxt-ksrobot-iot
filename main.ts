@@ -16,8 +16,10 @@ namespace KSRobot_IOT {
 
 
     const OBLOQ_STR_TYPE_IS_NONE = ""
+    let OBLOQ_MQTT_TOPIC = [["x", "false"], ["x", "false"], ["x", "false"], ["x", "false"], ["x", "false"]]
     let OBLOQ_MQTT_CB: Action[] = [null, null, null, null, null]
     let OBLOQ_ANSWER_CONTENT = OBLOQ_STR_TYPE_IS_NONE
+    let OBLOQ_ANSWER_CMD = OBLOQ_STR_TYPE_IS_NONE
 
     //topics name
     export enum TOPIC {
@@ -26,13 +28,6 @@ namespace KSRobot_IOT {
         topic_2 = 2,
         topic_3 = 3,
         topic_4 = 4
-    }
-
-
-    export enum IOT_Config {
-        STATION = 0,
-        STATION_AP = 1,
-
     }
 
     export class PacketaMqtt {
@@ -45,6 +40,12 @@ namespace KSRobot_IOT {
     //% shim=KSRobot_IOT::obloqforevers
     function obloqforevers(a: Action): void {
         return
+    }
+
+    export enum IOT_Config {
+        STATION = 0,
+        STATION_AP = 1,
+
     }
 
 
@@ -70,8 +71,16 @@ namespace KSRobot_IOT {
                 strlen3 = iot_receive_data.indexOf(compare_str0) + compare_str0.length
                 strlen4 = iot_receive_data.length - strlen3
                 receive_topic_name = iot_receive_data.substr(strlen1, strlen2)
+                OBLOQ_ANSWER_CMD = receive_topic_name
                 receive_topic_value = iot_receive_data.substr(strlen3, strlen4)
                 if (OBLOQ_MQTT_CB[0] != null) obloqforevers(OBLOQ_MQTT_CB[0]);
+                switch (OBLOQ_ANSWER_CMD) {
+                    case OBLOQ_MQTT_TOPIC[0][0]: { if (OBLOQ_MQTT_CB[0] != null) obloqforevers(OBLOQ_MQTT_CB[0]); } break;
+                    case OBLOQ_MQTT_TOPIC[1][0]: { if (OBLOQ_MQTT_CB[1] != null) obloqforevers(OBLOQ_MQTT_CB[1]); } break;
+                    case OBLOQ_MQTT_TOPIC[2][0]: { if (OBLOQ_MQTT_CB[2] != null) obloqforevers(OBLOQ_MQTT_CB[2]); } break;
+                    case OBLOQ_MQTT_TOPIC[3][0]: { if (OBLOQ_MQTT_CB[3] != null) obloqforevers(OBLOQ_MQTT_CB[3]); } break;
+                    case OBLOQ_MQTT_TOPIC[4][0]: { if (OBLOQ_MQTT_CB[4] != null) obloqforevers(OBLOQ_MQTT_CB[4]); } break;
+                }
             }
             // parse Local IP
             if (iot_receive_data.indexOf(compare_str2) >= 0) {
@@ -305,6 +314,37 @@ namespace KSRobot_IOT {
         return iot_receive_data;
     }
 
+
+    //% weight=190
+    //% blockId=Obloq_mqtt_send_message_more
+    //% block="MQTT publish %top | payload %payload"
+    export function Obloq_mqtt_send_message_more(top: TOPIC, payload: string): void {
+        if (IOT_MQTT_CONNECTED) {
+            switch (top) {
+                case TOPIC.topic_0: serial.writeLine("AT+MQTT_Publish?topic=" + OBLOQ_MQTT_TOPIC[0][0] + "&payload=" + payload + "="); break;
+                case TOPIC.topic_1: serial.writeLine("AT+MQTT_Publish?topic=" + OBLOQ_MQTT_TOPIC[1][0] + "&payload=" + payload + "="); break;
+                case TOPIC.topic_2: serial.writeLine("AT+MQTT_Publish?topic=" + OBLOQ_MQTT_TOPIC[2][0] + "&payload=" + payload + "="); break;
+                case TOPIC.topic_3: serial.writeLine("AT+MQTT_Publish?topic=" + OBLOQ_MQTT_TOPIC[3][0] + "&payload=" + payload + "="); break;
+                case TOPIC.topic_4: serial.writeLine("AT+MQTT_Publish?topic=" + OBLOQ_MQTT_TOPIC[4][0] + "&payload=" + payload + "="); break;
+            }
+        }
+    }
+
+
+    //% weight=200
+    //% blockId=Obloq_mqtt_add_topic
+    //% block="MQTT subscribe  %top |: %topic"
+    export function Obloq_mqtt_add_topic(top: TOPIC, topic: string): void {
+        if (IOT_MQTT_CONNECTED) {
+            OBLOQ_MQTT_TOPIC[top][0] = topic
+            OBLOQ_MQTT_TOPIC[top][1] = "true"
+            serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
+            control.waitMicros(500000)
+        }
+
+
+    }
+
     function Obloq_mqtt_callback_more(top: TOPIC, a: Action): void {
         switch (top) {
             case TOPIC.topic_0: OBLOQ_MQTT_CB[0] = a; break;
@@ -321,14 +361,13 @@ namespace KSRobot_IOT {
     */
     //% weight=180
     //% blockGap=60
-    //% blockId=obloq_mqtt_callback_user_more block="on %top |received"
-
+    //% blockId=obloq_mqtt_callback_user_more 
+    //% block="On %top |received"
     export function Obloq_mqtt_callback_user_more(top: TOPIC, cb: (message: string) => void) {
         Obloq_mqtt_callback_more(top, () => {
             const packet = new PacketaMqtt()
             packet.message = receive_topic_value
             cb(packet.message)
-            
 
         });
     }
