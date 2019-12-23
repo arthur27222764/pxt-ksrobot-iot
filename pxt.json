@@ -8,6 +8,7 @@
     },
     "files": [
         "main.ts",
+        "ksrobot.cpp",
         "README.md",
         "_locales/zh/KSRobot_IOT-strings.json" 
         

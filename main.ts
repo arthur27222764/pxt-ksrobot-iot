@@ -14,12 +14,38 @@ namespace KSRobot_IOT {
     let receive_topic_name = ""
     let receive_topic_value = ""
 
+
+    const OBLOQ_STR_TYPE_IS_NONE = ""
+    let OBLOQ_MQTT_CB: Action[] = [null, null, null, null, null]
+    let OBLOQ_ANSWER_CONTENT = OBLOQ_STR_TYPE_IS_NONE
+
+    //topics name
+    export enum TOPIC {
+        topic_0 = 0,
+        topic_1 = 1,
+        topic_2 = 2,
+        topic_3 = 3,
+        topic_4 = 4
+    }
+
+
     export enum IOT_Config {
         STATION = 0,
         STATION_AP = 1,
 
     }
 
+    export class PacketaMqtt {
+        /**
+         * Obloq receives the message content.
+         */
+        public message: string;
+    }
+
+    //% shim=KSRobotCPP::start_forevers
+    function obloqforevers(a: Action): void {
+        return
+    }
 
 
     function WifiDataReceived(): void {
@@ -35,7 +61,7 @@ namespace KSRobot_IOT {
             let strlen1 = 0
 
             iot_receive_data = serial.readLine()
-            iot_receive_data=iot_receive_data.substr(0,iot_receive_data.length-1)
+            iot_receive_data = iot_receive_data.substr(0, iot_receive_data.length - 1)
 
             if (iot_receive_data.indexOf(compare_str1) >= 0) {
                 // parse mqtt topic
@@ -45,6 +71,7 @@ namespace KSRobot_IOT {
                 strlen4 = iot_receive_data.length - strlen3
                 receive_topic_name = iot_receive_data.substr(strlen1, strlen2)
                 receive_topic_value = iot_receive_data.substr(strlen3, strlen4)
+                if (OBLOQ_MQTT_CB[0] != null) obloqforevers(OBLOQ_MQTT_CB[0]);
             }
             // parse Local IP
             if (iot_receive_data.indexOf(compare_str2) >= 0) {
@@ -104,13 +131,12 @@ namespace KSRobot_IOT {
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=" + ap + "=");
         for (let id_y = 0; id_y <= 4; id_y++) {
             for (let id_x = 0; id_x <= 4; id_x++) {
-                if(!IOT_WIFI_CONNECTED)
-                {
+                if (!IOT_WIFI_CONNECTED) {
                     led.plot(id_x, id_y)
                     basic.pause(500)
 
                 }
-                
+
             }
         }
 
@@ -211,7 +237,6 @@ namespace KSRobot_IOT {
     export function MQTT_Data(receivedata: string): string {
 
         if (receivedata.compare(receive_topic_name) == 0) {
-            //receive_topic_name=""
             return receive_topic_value;
         }
         else
@@ -273,13 +298,39 @@ namespace KSRobot_IOT {
         }
     }
 
-
-
     //% blockId=Receive_Data
     //% block="Receive Data"
     export function Receive_Data(): string {
 
         return iot_receive_data;
+    }
+
+    function Obloq_mqtt_callback_more(top: TOPIC, a: Action): void {
+        switch (top) {
+            case TOPIC.topic_0: OBLOQ_MQTT_CB[0] = a; break;
+            case TOPIC.topic_1: OBLOQ_MQTT_CB[1] = a; break;
+            case TOPIC.topic_2: OBLOQ_MQTT_CB[2] = a; break;
+            case TOPIC.topic_3: OBLOQ_MQTT_CB[3] = a; break;
+            case TOPIC.topic_4: OBLOQ_MQTT_CB[4] = a; break;
+        }
+    }
+
+    /**
+     * This is an MQTT listener callback function, which is very important.
+     * The specific use method can refer to "example/ObloqMqtt.ts"
+    */
+    //% weight=180
+    //% blockGap=60
+    //% blockId=obloq_mqtt_callback_user_more block="on %top |received"
+
+    export function Obloq_mqtt_callback_user_more(top: TOPIC, cb: (message: string) => void) {
+        Obloq_mqtt_callback_more(top, () => {
+            const packet = new PacketaMqtt()
+            packet.message = OBLOQ_ANSWER_CONTENT
+            cb(packet.message)
+            
+
+        });
     }
 
 
