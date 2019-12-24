@@ -13,10 +13,10 @@ namespace KSRobot_IOT {
     let iot_receive_data = ""
     let receive_topic_name = ""
     let receive_topic_value = ""
-  
+
     let MQTT_TOPIC = ["", "", "", "", ""]
     let MQTT_CB: Action[] = [null, null, null, null, null]
-    
+
 
     //topics name
     export enum TOPIC {
@@ -28,7 +28,7 @@ namespace KSRobot_IOT {
     }
 
     export class NewMessage {
-        
+
         public message: string;
     }
 
@@ -119,7 +119,7 @@ namespace KSRobot_IOT {
       */
     //% blockId=Wifi_setup
     //% block="KSRobot WIFI Set| TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd| AP %ap"
-   
+
 
     export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string, ap: IOT_Config): void {
         serial.redirect(
@@ -311,7 +311,7 @@ namespace KSRobot_IOT {
     }
 
 
-   
+
     //% blockId=MQTTPublish1
     //% block="MQTT publish %top | payload %payload"
     export function MQTTPublish1(top: TOPIC, payload: string): void {
@@ -327,7 +327,7 @@ namespace KSRobot_IOT {
     }
 
 
-    
+
     //% blockId=MQTTSubscribe1
     //% block="MQTT subscribe  %top | %topic"
     export function MQTTSubscribe1(top: TOPIC, topic: string): void {
@@ -349,8 +349,8 @@ namespace KSRobot_IOT {
             case TOPIC.Topic4: MQTT_CB[4] = a; break;
         }
     }
-  
-    
+
+    /*
     //% blockId=MQTT_Data1 
     //% block="On %top |received"
     export function MQTT_Data1(top: TOPIC, cb: (message: string) => void) {
@@ -360,6 +360,20 @@ namespace KSRobot_IOT {
             cb(packet.message)
 
         });
+    }*/
+
+
+
+    //% blockId=MQTT_Data1 
+    //% block="On %top |received"
+    export function MQTT_Data1(top: TOPIC, cb: (message: string) => void) {
+        switch (top) {
+            case TOPIC.Topic0: MQTT_CB[0] = () => { cb(receive_topic_value) }; break;
+            case TOPIC.Topic1: MQTT_CB[1] = () => { cb(receive_topic_value) }; break;
+            case TOPIC.Topic2: MQTT_CB[2] = () => { cb(receive_topic_value) }; break;
+            case TOPIC.Topic3: MQTT_CB[3] = () => { cb(receive_topic_value) }; break;
+            case TOPIC.Topic4: MQTT_CB[4] = () => { cb(receive_topic_value) }; break;
+        }
     }
 
 
