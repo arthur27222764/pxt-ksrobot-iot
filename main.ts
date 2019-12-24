@@ -121,7 +121,7 @@ namespace KSRobot_IOT {
       */
     //% blockId=Wifi_setup
     //% block="KSRobot WIFI Set| TXD %txd| RXD %rxd| SSID %ssid| PASSWORD %passwd| AP %ap"
-    //% weight=99
+   
 
     export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string, ap: IOT_Config): void {
         serial.redirect(
@@ -313,10 +313,10 @@ namespace KSRobot_IOT {
     }
 
 
-    //% weight=190
-    //% blockId=Obloq_mqtt_send_message_more
+   
+    //% blockId=MQTTPublish1
     //% block="MQTT publish %top | payload %payload"
-    export function Obloq_mqtt_send_message_more(top: TOPIC, payload: string): void {
+    export function MQTTPublish1(top: TOPIC, payload: string): void {
         if (IOT_MQTT_CONNECTED) {
             switch (top) {
                 case TOPIC.Topic0: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[0] + "&payload=" + payload + "="); break;
@@ -329,10 +329,10 @@ namespace KSRobot_IOT {
     }
 
 
-    //% weight=200
-    //% blockId=Obloq_mqtt_add_topic
-    //% block="MQTT subscribe  %top |: %topic"
-    export function Obloq_mqtt_add_topic(top: TOPIC, topic: string): void {
+    
+    //% blockId=MQTTSubscribe1
+    //% block="MQTT subscribe  %top | %topic"
+    export function MQTTSubscribe1(top: TOPIC, topic: string): void {
         if (IOT_MQTT_CONNECTED) {
             MQTT_TOPIC[top] = topic
             serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
@@ -342,7 +342,7 @@ namespace KSRobot_IOT {
 
     }
 
-    function Obloq_mqtt_callback_more(top: TOPIC, a: Action): void {
+    function mqtt_callback(top: TOPIC, a: Action): void {
         switch (top) {
             case TOPIC.Topic0: MQTT_CB[0] = a; break;
             case TOPIC.Topic1: MQTT_CB[1] = a; break;
@@ -351,17 +351,12 @@ namespace KSRobot_IOT {
             case TOPIC.Topic4: MQTT_CB[4] = a; break;
         }
     }
-
-    /**
-     * This is an MQTT listener callback function, which is very important.
-     * The specific use method can refer to "example/ObloqMqtt.ts"
-    */
-    //% weight=180
-    //% blockGap=60
-    //% blockId=obloq_mqtt_callback_user_more 
+  
+    
+    //% blockId=MQTT_Data1 
     //% block="On %top |received"
-    export function Obloq_mqtt_callback_user_more(top: TOPIC, cb: (message: string) => void) {
-        Obloq_mqtt_callback_more(top, () => {
+    export function MQTT_Data1(top: TOPIC, cb: (message: string) => void) {
+        mqtt_callback(top, () => {
             const packet = new PacketaMqtt()
             packet.message = receive_topic_value
             cb(packet.message)
