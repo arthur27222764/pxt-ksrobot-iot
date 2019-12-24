@@ -16,8 +16,7 @@ namespace KSRobot_IOT {
   
     let MQTT_TOPIC = ["", "", "", "", ""]
     let MQTT_CB: Action[] = [null, null, null, null, null]
-    let OBLOQ_ANSWER_CONTENT = ""
-    let OBLOQ_ANSWER_CMD = ""
+    
 
     //topics name
     export enum TOPIC {
@@ -69,7 +68,6 @@ namespace KSRobot_IOT {
                 strlen3 = iot_receive_data.indexOf(compare_str0) + compare_str0.length
                 strlen4 = iot_receive_data.length - strlen3
                 receive_topic_name = iot_receive_data.substr(strlen1, strlen2)
-                OBLOQ_ANSWER_CMD = receive_topic_name
                 receive_topic_value = iot_receive_data.substr(strlen3, strlen4)
 
 
@@ -365,7 +363,6 @@ namespace KSRobot_IOT {
     export function Obloq_mqtt_callback_user_more(top: TOPIC, cb: (message: string) => void) {
         Obloq_mqtt_callback_more(top, () => {
             const packet = new PacketaMqtt()
-            OBLOQ_ANSWER_CONTENT = receive_topic_value
             packet.message = receive_topic_value
             cb(packet.message)
 
