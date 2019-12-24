@@ -248,7 +248,44 @@ namespace KSRobot_IOT {
             return "";
 
     }
+    
 
+    //% blockId=MQTTPublish1
+    //% block="MQTT publish %top | payload %payload"
+    export function MQTTPublish1(top: TOPIC, payload: string): void {
+        if (IOT_MQTT_CONNECTED) {
+            switch (top) {
+                case TOPIC.Topic0: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[0] + "&payload=" + payload + "="); break;
+                case TOPIC.Topic1: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[1] + "&payload=" + payload + "="); break;
+                case TOPIC.Topic2: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[2] + "&payload=" + payload + "="); break;
+                case TOPIC.Topic3: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[3] + "&payload=" + payload + "="); break;
+                case TOPIC.Topic4: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[4] + "&payload=" + payload + "="); break;
+            }
+        }
+    }
+
+    //% blockId=MQTTSubscribe1
+    //% block="MQTT subscribe  %top | %topic"
+    export function MQTTSubscribe1(top: TOPIC, topic: string): void {
+        if (IOT_MQTT_CONNECTED) {
+            MQTT_TOPIC[top] = topic
+            serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
+            control.waitMicros(800000)
+        }
+
+    }
+
+    //% blockId=MQTT_Data1 
+    //% block="On %top |received"
+    export function MQTT_Data1(top: TOPIC, cb: (message: string) => void) {
+        switch (top) {
+            case TOPIC.Topic0: MQTT_CB[0] = () => { cb(receive_topic_value) }; break;
+            case TOPIC.Topic1: MQTT_CB[1] = () => { cb(receive_topic_value) }; break;
+            case TOPIC.Topic2: MQTT_CB[2] = () => { cb(receive_topic_value) }; break;
+            case TOPIC.Topic3: MQTT_CB[3] = () => { cb(receive_topic_value) }; break;
+            case TOPIC.Topic4: MQTT_CB[4] = () => { cb(receive_topic_value) }; break;
+        }
+    }
 
     //% blockId=HTML_POST
     //% block="HTML_POST Server %host| Header %header| Body %body"
@@ -310,71 +347,6 @@ namespace KSRobot_IOT {
         return iot_receive_data;
     }
 
-
-
-    //% blockId=MQTTPublish1
-    //% block="MQTT publish %top | payload %payload"
-    export function MQTTPublish1(top: TOPIC, payload: string): void {
-        if (IOT_MQTT_CONNECTED) {
-            switch (top) {
-                case TOPIC.Topic0: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[0] + "&payload=" + payload + "="); break;
-                case TOPIC.Topic1: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[1] + "&payload=" + payload + "="); break;
-                case TOPIC.Topic2: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[2] + "&payload=" + payload + "="); break;
-                case TOPIC.Topic3: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[3] + "&payload=" + payload + "="); break;
-                case TOPIC.Topic4: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[4] + "&payload=" + payload + "="); break;
-            }
-        }
-    }
-
-
-
-    //% blockId=MQTTSubscribe1
-    //% block="MQTT subscribe  %top | %topic"
-    export function MQTTSubscribe1(top: TOPIC, topic: string): void {
-        if (IOT_MQTT_CONNECTED) {
-            MQTT_TOPIC[top] = topic
-            serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
-            control.waitMicros(800000)
-        }
-
-
-    }
-
-    function mqtt_callback(top: TOPIC, a: Action): void {
-        switch (top) {
-            case TOPIC.Topic0: MQTT_CB[0] = a; break;
-            case TOPIC.Topic1: MQTT_CB[1] = a; break;
-            case TOPIC.Topic2: MQTT_CB[2] = a; break;
-            case TOPIC.Topic3: MQTT_CB[3] = a; break;
-            case TOPIC.Topic4: MQTT_CB[4] = a; break;
-        }
-    }
-
-    /*
-    //% blockId=MQTT_Data1 
-    //% block="On %top |received"
-    export function MQTT_Data1(top: TOPIC, cb: (message: string) => void) {
-        mqtt_callback(top, () => {
-            const packet = new NewMessage()
-            packet.message = receive_topic_value
-            cb(packet.message)
-
-        });
-    }*/
-
-
-
-    //% blockId=MQTT_Data1 
-    //% block="On %top |received"
-    export function MQTT_Data1(top: TOPIC, cb: (message: string) => void) {
-        switch (top) {
-            case TOPIC.Topic0: MQTT_CB[0] = () => { cb(receive_topic_value) }; break;
-            case TOPIC.Topic1: MQTT_CB[1] = () => { cb(receive_topic_value) }; break;
-            case TOPIC.Topic2: MQTT_CB[2] = () => { cb(receive_topic_value) }; break;
-            case TOPIC.Topic3: MQTT_CB[3] = () => { cb(receive_topic_value) }; break;
-            case TOPIC.Topic4: MQTT_CB[4] = () => { cb(receive_topic_value) }; break;
-        }
-    }
 
 
 }
