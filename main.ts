@@ -27,10 +27,8 @@ namespace KSRobot_IOT {
         Topic4 = 4
     }
 
-    export class PacketaMqtt {
-        /**
-         * Obloq receives the message content.
-         */
+    export class NewMessage {
+        
         public message: string;
     }
 
@@ -357,8 +355,7 @@ namespace KSRobot_IOT {
     //% block="On %top |received"
     export function MQTT_Data1(top: TOPIC, cb: (message: string) => void) {
         mqtt_callback(top, () => {
-            //const packet = new PacketaMqtt()
-            const packet = new public message: string;
+            const packet = new NewMessage()
             packet.message = receive_topic_value
             cb(packet.message)
 
