@@ -145,6 +145,7 @@ namespace KSRobot_IOT {
 
             }
         }
+        control.waitMicros(500000)
 
     }
 
