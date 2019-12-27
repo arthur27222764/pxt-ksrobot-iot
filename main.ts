@@ -218,7 +218,7 @@ namespace KSRobot_IOT {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+MQTT?host=" + host + "&port=" + port + "&clientId=" + clientId + "&username=" + username + "&password=" + pwd + "=");
             IOT_MQTT_CONNECTED = true
-            control.waitMicros(600000)
+            control.waitMicros(1000000)
         }
     }
 
