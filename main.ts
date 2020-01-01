@@ -139,7 +139,7 @@ namespace KSRobot_IOT {
         );
         serial.setRxBufferSize(128)
         serial.setTxBufferSize(128)
-        control.waitMicros(10000000)
+        control.waitMicros(1000000)
         WifiDataReceived()
         serial.writeLine("AT+Restart=");
         control.waitMicros(1500000)
