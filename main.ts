@@ -242,7 +242,7 @@ namespace KSRobot_IOT {
     //% block="MQTT publish topic %topic payload %payload"
     export function MQTTPublish(topic: string, payload: string): void {
         if (IOT_MQTT_CONNECTED) {
-            serial.writeLine("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload + "=");
+            serial.writeLine("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload );
         }
     }
 
@@ -274,11 +274,11 @@ namespace KSRobot_IOT {
     export function MQTTPublish1(top: TOPIC, payload: string): void {
         if (IOT_MQTT_CONNECTED) {
             switch (top) {
-                case TOPIC.Topic0: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[0] + "&payload=" + payload + "="); break;
-                case TOPIC.Topic1: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[1] + "&payload=" + payload + "="); break;
-                case TOPIC.Topic2: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[2] + "&payload=" + payload + "="); break;
-                case TOPIC.Topic3: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[3] + "&payload=" + payload + "="); break;
-                case TOPIC.Topic4: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[4] + "&payload=" + payload + "="); break;
+                case TOPIC.Topic0: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[0] + "&payload=" + payload ); break;
+                case TOPIC.Topic1: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[1] + "&payload=" + payload ); break;
+                case TOPIC.Topic2: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[2] + "&payload=" + payload ); break;
+                case TOPIC.Topic3: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[3] + "&payload=" + payload ); break;
+                case TOPIC.Topic4: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[4] + "&payload=" + payload ); break;
             }
         }
     }
