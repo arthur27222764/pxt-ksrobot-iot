@@ -13,6 +13,7 @@ namespace KSRobot_IOT {
     let iot_receive_data = ""
     let receive_topic_name = ""
     let receive_topic_value = ""
+    let Version = "1"
 
     let MQTT_TOPIC = ["", "", "", "", ""]
     let MQTT_CB: Action[] = [null, null, null, null, null]
@@ -51,6 +52,7 @@ namespace KSRobot_IOT {
             let compare_str1 = "@#$@TOPIC$"
             let compare_str2 = "@#$@STIP$"
             let compare_str3 = "@#$@APIP$"
+            let compare_str4 = "@#$@Version$"
             let strlen4 = 0
             let strlen3 = 0
             let strlen2 = 0
@@ -79,7 +81,7 @@ namespace KSRobot_IOT {
 
             }
             // parse Local IP
-            if (iot_receive_data.indexOf(compare_str2) >= 0) {
+            else if (iot_receive_data.indexOf(compare_str2) >= 0) {
                 strlen1 = iot_receive_data.indexOf(compare_str2) + compare_str2.length
                 strlen2 = iot_receive_data.indexOf(compare_str0) - strlen2
                 strlen3 = iot_receive_data.indexOf(compare_str0) + compare_str0.length
@@ -96,13 +98,21 @@ namespace KSRobot_IOT {
                 `)
             }
             // parse AP information
-            if (iot_receive_data.indexOf(compare_str3) >= 0) {
+            else if (iot_receive_data.indexOf(compare_str3) >= 0) {
                 strlen1 = iot_receive_data.indexOf(compare_str3) + compare_str3.length
                 strlen2 = iot_receive_data.indexOf(compare_str0) - strlen3
                 strlen3 = iot_receive_data.indexOf(compare_str0) + compare_str0.length
                 strlen4 = iot_receive_data.length - strlen3
                 temp_name = iot_receive_data.substr(strlen1, strlen2)
                 ap_ip = iot_receive_data.substr(strlen3, strlen4)
+            }
+            else if (iot_receive_data.indexOf(compare_str4) >= 0) {
+                strlen1 = iot_receive_data.indexOf(compare_str4) + compare_str4.length
+                strlen2 = iot_receive_data.indexOf(compare_str0) - strlen3
+                strlen3 = iot_receive_data.indexOf(compare_str0) + compare_str0.length
+                strlen4 = iot_receive_data.length - strlen3
+                temp_name = iot_receive_data.substr(strlen1, strlen2)
+                Version = iot_receive_data.substr(strlen3, strlen4)
             }
 
 
@@ -158,6 +168,12 @@ namespace KSRobot_IOT {
     //% block="IOT AP Name"
     export function AP_Name(): string {
         return ap_ip;
+    }
+
+    //% blockId=Get_Version
+    //% block="Get Version"
+    export function Get_Version(): string {
+        return Version;
     }
 
     //% blockId=Wifi_Connection
