@@ -139,11 +139,10 @@ namespace KSRobot_IOT {
         );
         serial.setRxBufferSize(128)
         serial.setTxBufferSize(128)
-        control.waitMicros(500000)
+        control.waitMicros(1000000)
         WifiDataReceived()
-        control.waitMicros(500000)
         serial.writeLine("AT+Restart=");
-        control.waitMicros(800000)
+        control.waitMicros(1000000)
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=" + ap + "=");
         for (let id_y = 0; id_y <= 4; id_y++) {
             for (let id_x = 0; id_x <= 4; id_x++) {
@@ -155,7 +154,7 @@ namespace KSRobot_IOT {
 
             }
         }
-        control.waitMicros(500000)
+        
 
     }
 
@@ -233,8 +232,8 @@ namespace KSRobot_IOT {
     export function MQTT_set(host: string, port: number, clientId: string, username: string, pwd: string): void {
         if (IOT_WIFI_CONNECTED) {
             serial.writeLine("AT+MQTT?host=" + host + "&port=" + port + "&clientId=" + clientId + "&username=" + username + "&password=" + pwd + "=");
-            IOT_MQTT_CONNECTED = true
             control.waitMicros(1000000)
+            IOT_MQTT_CONNECTED = true
         }
     }
 
@@ -250,7 +249,7 @@ namespace KSRobot_IOT {
     //% block="MQTT subscribe topic %topic"
     export function MQTTSubscribe(topic: string): void {
         if (IOT_MQTT_CONNECTED) {
-            control.waitMicros(600000)
+            control.waitMicros(500000)
             serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
             
         }
