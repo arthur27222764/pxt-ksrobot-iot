@@ -242,7 +242,7 @@ namespace KSRobot_IOT {
     //% block="MQTT publish topic %topic payload %payload"
     export function MQTTPublish(topic: string, payload: string): void {
         if (IOT_MQTT_CONNECTED) {
-            serial.writeLine("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload );
+            serial.writeLine("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload + "=" );
         }
     }
 
