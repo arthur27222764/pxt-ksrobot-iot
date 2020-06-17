@@ -24,6 +24,4 @@ void forever(Action a)
     }
 }
 
- 
-
 } // namespace KSRobotCPP

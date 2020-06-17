@@ -155,7 +155,7 @@ namespace KSRobot_IOT {
 
             }
         }
-        
+
 
     }
 
@@ -242,7 +242,8 @@ namespace KSRobot_IOT {
     //% block="MQTT publish topic %topic payload %payload"
     export function MQTTPublish(topic: string, payload: string): void {
         if (IOT_MQTT_CONNECTED) {
-            serial.writeString("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload + "=" );
+            serial.writeString("AT+MQTT_Publish?topic=" + topic + "&payload=" + payload + "=" + "\r\n");
+
         }
     }
 
@@ -252,7 +253,7 @@ namespace KSRobot_IOT {
         if (IOT_MQTT_CONNECTED) {
             control.waitMicros(600000)
             serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
-            
+
         }
     }
 
@@ -267,18 +268,18 @@ namespace KSRobot_IOT {
             return "";
 
     }
-    
+
 
     //% blockId=MQTTPublish1
     //% block="MQTT publish %top | payload %payload"
     export function MQTTPublish1(top: TOPIC, payload: string): void {
         if (IOT_MQTT_CONNECTED) {
             switch (top) {
-                case TOPIC.Topic0: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[0] + "&payload=" + payload ); break;
-                case TOPIC.Topic1: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[1] + "&payload=" + payload ); break;
-                case TOPIC.Topic2: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[2] + "&payload=" + payload ); break;
-                case TOPIC.Topic3: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[3] + "&payload=" + payload ); break;
-                case TOPIC.Topic4: serial.writeLine("AT+MQTT_Publish?topic=" + MQTT_TOPIC[4] + "&payload=" + payload ); break;
+                case TOPIC.Topic0: serial.writeString("AT+MQTT_Publish?topic=" + MQTT_TOPIC[0] + "&payload=" + payload + "=" + "\r\n");break;
+                case TOPIC.Topic1: serial.writeString("AT+MQTT_Publish?topic=" + MQTT_TOPIC[1] + "&payload=" + payload + "=" + "\r\n");break;
+                case TOPIC.Topic2: serial.writeString("AT+MQTT_Publish?topic=" + MQTT_TOPIC[2] + "&payload=" + payload + "=" + "\r\n");break;
+                case TOPIC.Topic3: serial.writeString("AT+MQTT_Publish?topic=" + MQTT_TOPIC[3] + "&payload=" + payload + "=" + "\r\n");break;
+                case TOPIC.Topic4: serial.writeString("AT+MQTT_Publish?topic=" + MQTT_TOPIC[4] + "&payload=" + payload + "=" + "\r\n");break;
             }
         }
     }
@@ -290,8 +291,8 @@ namespace KSRobot_IOT {
             control.waitMicros(600000)
             MQTT_TOPIC[top] = topic
             serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
-            
-            
+
+
         }
 
     }
@@ -312,12 +313,14 @@ namespace KSRobot_IOT {
     //% block="HTML_POST Server %host| Header %header| Body %body"
     export function HTML_POST(host: string, header: string, body: string): void {
         if (IOT_WIFI_CONNECTED) {
-            serial.writeLine("AT+HTML_POST?host="
+            serial.writeString("AT+HTML_POST?host="
                 + host
                 + "&header="
                 + header
                 + "&senddata="
-                + body);
+                + body
+                + "=" + "\r\n");
+                
         }
     }
 
@@ -325,12 +328,13 @@ namespace KSRobot_IOT {
     //% block="TCP_Client Server %host Port %port Send Data %senddata"
     export function TCP_Client(host: string, port: number, senddata: string): void {
         if (IOT_WIFI_CONNECTED) {
-            serial.writeLine("AT+TCP_Client?host="
+            serial.writeString("AT+TCP_Client?host="
                 + host
                 + "&port="
                 + port
                 + "&senddata="
-                + senddata);
+                + senddata
+                + "=" + "\r\n");
         }
     }
 
@@ -348,8 +352,9 @@ namespace KSRobot_IOT {
     //% block="TCP Send Data %senddata"
     export function TCP_SendData(senddata: string): void {
         if (IOT_WIFI_CONNECTED) {
-            serial.writeLine("AT+TCP_SendData?senddata="
-                + senddata);
+            serial.writeString("AT+TCP_SendData?senddata="
+                + senddata
+                + "=" + "\r\n");
         }
     }
 
