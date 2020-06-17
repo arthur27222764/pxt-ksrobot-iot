@@ -250,7 +250,7 @@ namespace KSRobot_IOT {
     //% block="MQTT subscribe topic %topic"
     export function MQTTSubscribe(topic: string): void {
         if (IOT_MQTT_CONNECTED) {
-            control.waitMicros(500000)
+            control.waitMicros(600000)
             serial.writeLine("AT+MQTT_Subscribe?topic=" + topic + "=");
             
         }
