@@ -24,11 +24,6 @@ void forever(Action a)
     }
 }
 
- void SerialWriteString(StringData *text) {
-      if (!text) {
-          return;
-      }
-      uBit.serial.send(ManagedString(text));
-    }
+ 
 
 } // namespace KSRobotCPP
