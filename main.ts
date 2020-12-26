@@ -144,7 +144,7 @@ namespace KSRobot_IOT {
         //WifiDataReceived()
         control.waitMicros(200000)
         serial.writeLine("TEST");
-        serial.writeLine("AT+Restart=");
+        //serial.writeLine("AT+Restart=");
         control.waitMicros(500000)
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=" + ap + "=");
         for (let id_y = 0; id_y <= 4; id_y++) {
