@@ -143,6 +143,7 @@ namespace KSRobot_IOT {
         control.waitMicros(500000)
         //WifiDataReceived()
         control.waitMicros(200000)
+        serial.writeLine("TEST");
         serial.writeLine("AT+Restart=");
         control.waitMicros(500000)
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=" + ap + "=");
