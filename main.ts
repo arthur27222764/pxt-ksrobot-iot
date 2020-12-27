@@ -38,6 +38,11 @@ namespace KSRobot_IOT {
         return
     }
 
+    //% shim=KSRobotCPP::mb_version
+    function mb_version(): int32;
+
+
+
     export enum IOT_Config {
         STATION = 0,
         STATION_AP = 1,
@@ -148,12 +153,16 @@ namespace KSRobot_IOT {
         control.waitMicros(500000)
         WifiDataReceived()
         control.waitMicros(200000)
-       
-        //serial.writeLine("AT+Restart=");
-        //control.waitMicros(1300000)
-       
+
+        if (mb_version()) {
+            serial.writeLine("AT+Restart=");
+            control.waitMicros(1300000)
+        }
+
+
+
         pins.setPull(DigitalPin.P8, PinPullMode.PullNone)
-       
+
 
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=" + ap + "=");
         for (let id_y = 0; id_y <= 4; id_y++) {
