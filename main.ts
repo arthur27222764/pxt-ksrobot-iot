@@ -143,7 +143,7 @@ namespace KSRobot_IOT {
         control.waitMicros(500000)
         WifiDataReceived()
         control.waitMicros(200000)
-        //serial.writeLine("AT+Restart=");
+        serial.writeLine("AT+Restart=");
         //pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
         //pins.setPull(DigitalPin.P15, PinPullMode.PullDown)
         //pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
