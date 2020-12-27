@@ -22,7 +22,7 @@ namespace KSRobotCPP
             //createThread((void *)thr, 400, 20, forever_stub, (void *)a);
         }
     }
-
+    //%
     int mb_version()
     {
 #if MICROBIT_CODAL
