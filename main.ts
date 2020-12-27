@@ -134,7 +134,7 @@ namespace KSRobot_IOT {
 
     export function Wifi_setup(txd: SerialPin, rxd: SerialPin, ssid: string, passwd: string, ap: IOT_Config): void {
         pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
-        control.waitMicros(2000000)
+        control.waitMicros(500000)
 
         serial.redirect(
             txd,   //TX
