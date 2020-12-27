@@ -151,7 +151,7 @@ namespace KSRobot_IOT {
         WifiDataReceived()
         control.waitMicros(200000)
 
-        if (mb_version()) {
+        if (KSRobotCPP.mb_version()) {
             serial.writeLine("AT+Restart=");
             control.waitMicros(1300000)
         }
