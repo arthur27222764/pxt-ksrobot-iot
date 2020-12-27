@@ -144,14 +144,12 @@ namespace KSRobot_IOT {
         WifiDataReceived()
         control.waitMicros(200000)
         serial.writeLine("AT+Restart=");
-        pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
-        pins.setPull(DigitalPin.P15, PinPullMode.PullUp)
+        //pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
+        //pins.setPull(DigitalPin.P15, PinPullMode.PullDown)
+        pins.setPull(DigitalPin.P8, PinPullMode.PullNone)
         control.waitMicros(1300000)
-        serial.redirect(
-            txd,   //TX
-            rxd,  //RX
-            BaudRate.BaudRate115200
-        );
+        WifiDataReceived()
+        
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=" + ap + "=");
         for (let id_y = 0; id_y <= 4; id_y++) {
             for (let id_x = 0; id_x <= 4; id_x++) {
