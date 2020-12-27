@@ -147,7 +147,7 @@ namespace KSRobot_IOT {
         //pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
         //pins.setPull(DigitalPin.P15, PinPullMode.PullDown)
         //pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
-        //control.waitMicros(1300000)
+        control.waitMicros(1300000)
        
         serial.writeLine("AT+AP_SET?ssid=" + ssid + "&pwd=" + passwd + "&AP=" + ap + "=");
         for (let id_y = 0; id_y <= 4; id_y++) {
