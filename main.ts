@@ -1,6 +1,13 @@
 /**
  * KSRobot_IOT V0.010
  */
+
+declare namespace KSRobotCPP {
+    //% shim=KSRobotCPP::mb_version
+    function mb_version(): int32;
+
+}
+
 //% weight=10 color=#00A6F0 icon="\uf1eb" block="KSRobot_IOT"
 
 namespace KSRobot_IOT {
