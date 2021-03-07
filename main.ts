@@ -2,11 +2,10 @@
  * KSRobot_IOT V0.010
  */
 
-declare namespace KSRobotCPP {
-    //% shim=KSRobotCPP::mb_version
-    function mb_version(): int32;
-
-}
+    //% shim=kslib::mb_version
+    function mb_version(): int32 {
+        return 0;
+    }
 
 //% weight=10 color=#00A6F0 icon="\uf1eb" block="KSRobot_IOT"
 
@@ -158,7 +157,7 @@ namespace KSRobot_IOT {
         WifiDataReceived()
         control.waitMicros(200000)
 
-        if (KSRobotCPP.mb_version()) {
+        if (mb_version()) {
             serial.writeLine("AT+Restart=");
             control.waitMicros(1300000)
         }
